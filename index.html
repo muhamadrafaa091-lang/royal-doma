@@ -1,0 +1,424 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROYAL DOMA - Mahjong Edition</title>
+
+<style>
+* {box-sizing:border-box}
+
+body {
+  margin:0;
+  background:radial-gradient(circle at top,#17634e,#061b17 75%);
+  color:#fff;
+  font-family:Arial,sans-serif;
+  text-align:center;
+  min-height:100vh;
+  padding:18px 10px;
+}
+
+h1 {
+  color:#f5d46b;
+  font-size:30px;
+  margin:10px 0 3px;
+  text-shadow:0 0 15px #c99b32;
+}
+
+.subtitle {
+  color:#b7d9c7;
+  letter-spacing:3px;
+  font-size:12px;
+}
+
+.panel {
+  max-width:480px;
+  margin:20px auto;
+  padding:15px;
+  border:2px solid #c49b42;
+  border-radius:18px;
+  background:linear-gradient(145deg,#174d3d,#08251e);
+  box-shadow:0 0 25px #0009;
+}
+
+.balance {
+  background:#071c17;
+  border:1px solid #b99748;
+  border-radius:12px;
+  padding:12px;
+  color:#f6d77a;
+  font-size:17px;
+}
+
+.balance strong {
+  display:block;
+  font-size:27px;
+  margin-top:5px;
+}
+
+.machine {
+  margin-top:17px;
+  padding:10px;
+  background:linear-gradient(145deg,#bd923a,#f4d77a,#87601c);
+  border-radius:13px;
+  box-shadow:inset 0 0 10px #593b0a;
+}
+
+.reels {
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:5px;
+  background:#08231b;
+  padding:7px;
+  border-radius:8px;
+}
+
+.tile {
+  aspect-ratio:1/1.12;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  border-radius:7px;
+  background:linear-gradient(145deg,#fff4c9,#c7a65b);
+  border:2px solid #fff0b0;
+  color:#193a2c;
+  box-shadow:inset 0 0 8px #80602b;
+  font-size:clamp(23px,7vw,37px);
+  font-weight:bold;
+}
+
+.tile small {
+  font-size:9px;
+  margin-top:3px;
+}
+
+.controls {
+  margin-top:18px;
+}
+
+.bet {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:18px;
+  margin:12px;
+}
+
+.bet button {
+  width:42px;
+  height:38px;
+  font-size:22px;
+}
+
+button {
+  border:0;
+  border-radius:9px;
+  background:linear-gradient(#f7dc80,#bd8b2d);
+  color:#392408;
+  font-weight:bold;
+  cursor:pointer;
+  padding:10px 17px;
+}
+
+button:disabled {
+  opacity:.5;
+}
+
+.spin {
+  width:85%;
+  max-width:280px;
+  padding:17px;
+  font-size:23px;
+  border-radius:13px;
+  background:linear-gradient(#ffe99b,#d99b25);
+  box-shadow:0 5px 0 #79551c;
+  margin-top:12px;
+}
+
+.info {
+  color:#d8e9df;
+  font-size:13px;
+  line-height:1.7;
+  margin-top:15px;
+}
+
+#result {
+  min-height:48px;
+  margin-top:15px;
+  color:#ffe58c;
+  font-weight:bold;
+  font-size:17px;
+}
+
+.footer {
+  color:#a6c5b5;
+  font-size:11px;
+  margin:20px 0 5px;
+}
+
+.spinning .tile {
+  animation:shake .12s infinite alternate;
+}
+
+@keyframes shake {
+  from {transform:translateY(-3px)}
+  to {transform:translateY(3px)}
+}
+</style>
+</head>
+
+<body>
+
+<h1>👑 ROYAL DOMA</h1>
+<div class="subtitle">MAHJONG EDITION</div>
+
+<div class="panel">
+
+  <div class="balance">
+    SALDO KOIN VIRTUAL
+    <strong id="balance">1.000</strong>
+  </div>
+
+  <div class="machine" id="machine">
+    <div class="reels" id="reels"></div>
+  </div>
+
+  <div class="controls">
+
+    <div>Taruhan per garis</div>
+
+    <div class="bet">
+      <button id="minus">−</button>
+      <strong id="bet">1</strong>
+      <button id="plus">+</button>
+    </div>
+
+    <div class="info">
+      25 GARIS KEMENANGAN<br>
+      Total taruhan: <strong id="totalBet">25</strong> koin
+    </div>
+
+    <button class="spin" id="spin">🎰 SPIN</button>
+
+    <div id="result">
+      Selamat bermain!
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  ROYAL DOMA © 2026<br>
+  Game hiburan dengan koin virtual, bukan uang asli.
+</div>
+
+<script>
+const symbols = [
+  {icon:"9",name:"NINE"},
+  {icon:"8",name:"EIGHT"},
+  {icon:"7",name:"SEVEN"},
+  {icon:"🀄",name:"MAHJONG"},
+  {icon:"🎋",name:"BAMBU"},
+  {icon:"🀇",name:"TILE"}
+];
+
+const paylines = [
+ [1,1,1,1,1],
+ [0,0,0,0,0],
+ [2,2,2,2,2],
+ [0,1,2,1,0],
+ [2,1,0,1,2],
+ [0,0,1,2,2],
+ [2,2,1,0,0],
+ [1,0,0,0,1],
+ [1,2,2,2,1],
+ [0,1,1,1,0],
+ [2,1,1,1,2],
+ [0,0,0,1,2],
+ [2,2,2,1,0],
+ [1,0,1,2,1],
+ [1,2,1,0,1],
+ [0,1,0,1,0],
+ [2,1,2,1,2],
+ [0,2,0,2,0],
+ [2,0,2,0,2],
+ [0,0,1,1,2],
+ [2,2,1,1,0],
+ [1,0,1,0,1],
+ [1,2,1,2,1],
+ [0,2,1,0,2],
+ [2,0,1,2,0]
+];
+
+let balance = 1000;
+let bet = 1;
+let board = [];
+
+const reels = document.getElementById("reels");
+const spinButton = document.getElementById("spin");
+
+function formatNumber(number) {
+  return number.toLocaleString("id-ID");
+}
+
+function updateInfo() {
+  document.getElementById("balance").textContent =
+    formatNumber(balance);
+
+  document.getElementById("bet").textContent = bet;
+
+  document.getElementById("totalBet").textContent =
+    formatNumber(bet * 25);
+}
+
+function randomSymbol() {
+  return Math.floor(Math.random() * symbols.length);
+}
+
+function makeBoard() {
+  board = [];
+
+  for(let row=0;row<3;row++) {
+    board[row] = [];
+
+    for(let col=0;col<5;col++) {
+      board[row][col] = randomSymbol();
+    }
+  }
+}
+
+function showBoard() {
+  reels.innerHTML = "";
+
+  for(let row=0;row<3;row++) {
+    for(let col=0;col<5;col++) {
+      const symbol = symbols[board[row][col]];
+
+      const tile = document.createElement("div");
+      tile.className = "tile";
+
+      const icon = document.createElement("span");
+      icon.textContent = symbol.icon;
+
+      const label = document.createElement("small");
+      label.textContent = symbol.name;
+
+      tile.appendChild(icon);
+      tile.appendChild(label);
+      reels.appendChild(tile);
+    }
+  }
+}
+
+function checkWins() {
+  let totalWin = 0;
+  let winningLines = 0;
+
+  for(const line of paylines) {
+
+    const firstSymbol = board[line[0]][0];
+    let count = 1;
+
+    for(let col=1;col<5;col++) {
+      if(board[line[col]][col] === firstSymbol) {
+        count++;
+      } else {
+        break;
+      }
+    }
+
+    if(count >= 3) {
+      let multiplier = count === 3 ? 5 :
+                       count === 4 ? 15 : 50;
+
+      totalWin += bet * multiplier;
+      winningLines++;
+    }
+  }
+
+  return {
+    totalWin,
+    winningLines
+  };
+}
+
+function spin() {
+
+  const cost = bet * 25;
+
+  if(balance < cost) {
+    document.getElementById("result").textContent =
+      "Saldo tidak cukup!";
+    return;
+  }
+
+  spinButton.disabled = true;
+  document.getElementById("minus").disabled = true;
+  document.getElementById("plus").disabled = true;
+
+  balance -= cost;
+  updateInfo();
+
+  document.getElementById("result").textContent =
+    "🎰 Gulungan berputar...";
+
+  document.getElementById("machine").classList.add("spinning");
+
+  makeBoard();
+  showBoard();
+
+  setTimeout(() => {
+
+    document.getElementById("machine").classList.remove("spinning");
+
+    const result = checkWins();
+
+    balance += result.totalWin;
+    updateInfo();
+
+    if(result.totalWin > 0) {
+      document.getElementById("result").textContent =
+        "🏆 MENANG! " +
+        formatNumber(result.totalWin) +
+        " koin | " +
+        result.winningLines +
+        " garis menang!";
+    } else {
+      document.getElementById("result").textContent =
+        "Belum menang. Coba lagi!";
+    }
+
+    spinButton.disabled = false;
+    document.getElementById("minus").disabled = false;
+    document.getElementById("plus").disabled = false;
+
+  },700);
+}
+
+document.getElementById("minus").onclick = () => {
+  if(bet > 1) {
+    bet--;
+    updateInfo();
+  }
+};
+
+document.getElementById("plus").onclick = () => {
+  if(bet < 10) {
+    bet++;
+    updateInfo();
+  }
+};
+
+spinButton.onclick = spin;
+
+makeBoard();
+showBoard();
+updateInfo();
+</script>
+
+</body>
+  </html>
+  
