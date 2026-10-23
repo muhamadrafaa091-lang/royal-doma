@@ -7,166 +7,198 @@
 <title>ROYAL DOMA - Mahjong Edition</title>
 
 <style>
-* {box-sizing:border-box}
+
+* {
+  box-sizing: border-box;
+}
 
 body {
-  margin:0;
-  background:radial-gradient(circle at top,#17634e,#061b17 75%);
-  color:#fff;
-  font-family:Arial,sans-serif;
-  text-align:center;
-  min-height:100vh;
-  padding:18px 10px;
+  margin: 0;
+  min-height: 100vh;
+  padding: 15px 9px;
+  text-align: center;
+  color: #fff4d0;
+  font-family: Arial, sans-serif;
+  background:
+    radial-gradient(ellipse at top, #176d50, #05251c 65%, #03140f);
 }
 
 h1 {
-  color:#f5d46b;
-  font-size:30px;
-  margin:10px 0 3px;
-  text-shadow:0 0 15px #c99b32;
+  margin: 12px 0 4px;
+  font-size: 34px;
+  font-weight: 900;
+  color: #ffdc76;
+  text-shadow: 0 0 12px #e8a72b, 2px 3px 3px #000;
 }
 
 .subtitle {
-  color:#b7d9c7;
-  letter-spacing:3px;
-  font-size:12px;
+  color: #e8c878;
+  font-size: 12px;
+  letter-spacing: 5px;
+  font-weight: bold;
 }
 
 .panel {
-  max-width:480px;
-  margin:20px auto;
-  padding:15px;
-  border:2px solid #c49b42;
-  border-radius:18px;
-  background:linear-gradient(145deg,#174d3d,#08251e);
-  box-shadow:0 0 25px #0009;
+  width: 100%;
+  max-width: 480px;
+  margin: 20px auto;
+  padding: 15px 10px;
+  border: 3px solid #d6a846;
+  border-radius: 22px;
+  background: linear-gradient(145deg,#15523e,#073025,#092019);
+  box-shadow:
+    0 0 0 4px #583c16,
+    0 0 25px #d49b36aa,
+    inset 0 0 20px #000;
 }
 
 .balance {
-  background:#071c17;
-  border:1px solid #b99748;
-  border-radius:12px;
-  padding:12px;
-  color:#f6d77a;
-  font-size:17px;
+  padding: 14px;
+  border: 2px solid #d4ad55;
+  border-radius: 13px;
+  color: #f8d979;
+  background: linear-gradient(135deg,#09251c,#174b35);
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 
 .balance strong {
-  display:block;
-  font-size:27px;
-  margin-top:5px;
+  display: block;
+  margin-top: 6px;
+  font-size: 30px;
+  color: #fff0a6;
+  text-shadow: 0 0 12px #d99b26;
 }
 
 .machine {
-  margin-top:17px;
-  padding:10px;
-  background:linear-gradient(145deg,#bd923a,#f4d77a,#87601c);
-  border-radius:13px;
-  box-shadow:inset 0 0 10px #593b0a;
+  margin-top: 20px;
+  padding: 11px;
+  border: 4px ridge #f2d276;
+  border-radius: 17px;
+  background: linear-gradient(135deg,#f9d77b,#95621c,#f3d078);
+  box-shadow: 0 0 20px #e6b94b77;
 }
 
 .reels {
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:5px;
-  background:#08231b;
-  padding:7px;
-  border-radius:8px;
+  display: grid;
+  grid-template-columns: repeat(5,minmax(0,1fr));
+  gap: 5px;
+  padding: 7px;
+  border: 3px solid #6e4a18;
+  border-radius: 10px;
+  background: #06251b;
 }
 
 .tile {
-  aspect-ratio:1/1.12;
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  border-radius:7px;
-  background:linear-gradient(145deg,#fff4c9,#c7a65b);
-  border:2px solid #fff0b0;
-  color:#193a2c;
-  box-shadow:inset 0 0 8px #80602b;
-  font-size:clamp(23px,7vw,37px);
-  font-weight:bold;
+  aspect-ratio: 1 / 1.18;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 2px solid #f5df9a;
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg,#fff8dc,#e7d29b,#b99a54);
+  color: #176044;
+  box-shadow:
+    inset 0 0 8px #fff,
+    0 2px 4px #0009;
+  font-size: clamp(24px,8vw,39px);
+  font-weight: 900;
 }
 
 .tile small {
-  font-size:9px;
-  margin-top:3px;
+  margin-top: 3px;
+  font-size: clamp(6px,2vw,9px);
+  font-weight: bold;
+  letter-spacing: .5px;
 }
 
 .controls {
-  margin-top:18px;
+  margin-top: 20px;
 }
 
 .bet {
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:18px;
-  margin:12px;
-}
-
-.bet button {
-  width:42px;
-  height:38px;
-  font-size:22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin: 14px;
+  color: #ffe18a;
+  font-size: 20px;
 }
 
 button {
-  border:0;
-  border-radius:9px;
-  background:linear-gradient(#f7dc80,#bd8b2d);
-  color:#392408;
-  font-weight:bold;
-  cursor:pointer;
-  padding:10px 17px;
+  cursor: pointer;
+  border: 1px solid #ffe6a0;
+  border-radius: 10px;
+  padding: 11px 19px;
+  color: #40260b;
+  font-weight: 900;
+  background: linear-gradient(#fff0a9,#d69b31,#a66d1c);
+  box-shadow: 0 4px 0 #634214;
 }
 
 button:disabled {
-  opacity:.5;
+  opacity: .5;
 }
 
 .spin {
-  width:85%;
-  max-width:280px;
-  padding:17px;
-  font-size:23px;
-  border-radius:13px;
-  background:linear-gradient(#ffe99b,#d99b25);
-  box-shadow:0 5px 0 #79551c;
-  margin-top:12px;
+  width: 88%;
+  max-width: 290px;
+  margin-top: 18px;
+  padding: 17px;
+  border: 2px solid #fff0ac;
+  border-radius: 16px;
+  font-size: 25px;
+  letter-spacing: 2px;
+  color: #452707;
+  background: linear-gradient(180deg,#fff1a7,#f0bd42,#b97916);
+  box-shadow: 0 6px 0 #704511, 0 0 18px #e7b84d77;
+}
+
+.spin:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #704511;
 }
 
 .info {
-  color:#d8e9df;
-  font-size:13px;
-  line-height:1.7;
-  margin-top:15px;
+  margin-top: 14px;
+  color: #e5d5a0;
+  font-size: 13px;
+  line-height: 1.8;
 }
 
 #result {
-  min-height:48px;
-  margin-top:15px;
-  color:#ffe58c;
-  font-weight:bold;
-  font-size:17px;
-}
-
-.footer {
-  color:#a6c5b5;
-  font-size:11px;
-  margin:20px 0 5px;
+  min-height: 48px;
+  margin-top: 20px;
+  padding: 12px 5px;
+  border: 1px solid #b99143;
+  border-radius: 10px;
+  color: #ffe58c;
+  background: #09251c;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 .spinning .tile {
-  animation:shake .12s infinite alternate;
+  animation: shake .12s infinite alternate;
 }
 
 @keyframes shake {
-  from {transform:translateY(-3px)}
-  to {transform:translateY(3px)}
+  from { transform: translateY(-3px); }
+  to { transform: translateY(3px); }
 }
+
+.footer {
+  margin: 22px 0 8px;
+  color: #b9cbb7;
+  font-size: 11px;
+  }
+  
 </style>
 </head>
 
