@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#123b29">
+<title>RAFA GAMBLER - Domino Online</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ color:white;
+ background:linear-gradient(145deg,#071c13,#164b32,#071c13);
+ min-height:100vh;
+}
+header{
+ padding:18px 15px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ background:#07180f;
+ border-bottom:2px solid #d5a33d;
+}
+.logo{
+ color:#ffd46d;
+ font-size:22px;
+ font-weight:900;
+ text-shadow:0 2px 10px #bd821e;
+}
+.coins{color:#ffd46d;font-weight:bold}
+main{max-width:650px;margin:auto;padding:18px 12px}
+.hero{
+ text-align:center;
+ padding:25px 10px;
+}
+.hero h1{
+ font-size:34px;
+ margin:5px;
+ color:#ffd46d;
+ text-shadow:0 3px 12px #c58a21;
+}
+.hero p{color:#c8e4d2;font-size:13px}
+.table{
+ position:relative;
+ min-height:340px;
+ border:8px solid #a8732d;
+ border-radius:35px;
+ background:radial-gradient(#238354,#105033 70%,#092b1b);
+ box-shadow:0 0 25px #d9a33a55,inset 0 0 20px #0008;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+}
+.center{text-align:center}
+.center h2{
+ color:#ffdc83;
+ font-size:25px;
+ text-shadow:0 2px 8px #000;
+}
+.center p{font-size:12px;color:#d6f0df}
+.seat{
+ position:absolute;
+ background:#102a20dd;
+ border:1px solid #e5bd65;
+ border-radius:20px;
+ padding:8px 12px;
+ font-size:12px;
+}
+.top{top:12px;left:50%;transform:translateX(-50%)}
+.left{left:8px;top:48%}
+.right{right:8px;top:48%}
+.bottom{bottom:12px;left:50%;transform:translateX(-50%)}
+.hand{
+ display:flex;
+ justify-content:center;
+ gap:6px;
+ margin:22px 0;
+}
+.card{
+ width:39px;
+ height:65px;
+ border-radius:7px;
+ background:linear-gradient(145deg,#fff,#e8ddc4);
+ color:#183c29;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:space-evenly;
+ font-size:19px;
+ font-weight:bold;
+ box-shadow:0 3px 7px #0008;
+ border:1px solid #d3b87e;
+}
+.line{width:75%;height:2px;background:#a7a7a7}
+.buttons{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:12px;
+ margin-top:20px;
+}
+button{
+ border:0;
+ border-radius:14px;
+ padding:17px 8px;
+ font-size:15px;
+ font-weight:bold;
+ cursor:pointer;
+}
+.create{
+ background:linear-gradient(#36a9ff,#0755b9);
+ color:white;
+ box-shadow:0 4px 12px #0008;
+}
+.join{
+ background:linear-gradient(#bd62ff,#6723bd);
+ color:white;
+ box-shadow:0 4px 12px #0008;
+}
+.start{
+ width:100%;
+ margin-top:12px;
+ background:linear-gradient(#ffdf75,#e79a17);
+ color:#38230b;
+ font-size:18px;
+ box-shadow:0 4px 15px #0008;
+}
+.info{
+ text-align:center;
+ color:#b9d7c4;
+ font-size:11px;
+ margin-top:22px;
+ line-height:1.7;
+}
+#pesan{
+ text-align:center;
+ color:#ffda76;
+ font-size:13px;
+ margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">👑 RAFA GAMBLER</div>
+ <div class="coins">🪙 0 Koin</div>
+</header>
+
+<main>
+
+<div class="hero">
+ <h1>RAFA GAMBLER</h1>
+ <p>DOMINO ONLINE MULTIPLAYER</p>
+</div>
+
+<div class="table">
+
+ <div class="seat top">👤 Pemain 2</div>
+ <div class="seat left">👤 Pemain 3</div>
+ <div class="seat right">👤 Pemain 4</div>
+ <div class="seat bottom">👑 Bro</div>
+
+ <div class="center">
+  <h2>♛ RAFA ♛</h2>
+  <p>MEJA DOMINO PREMIUM</p>
+  <p>Menunggu pemain...</p>
+ </div>
+
+</div>
+
+<h3 style="text-align:center;color:#ffd46d">
+ Contoh Kartu Domino
+</h3>
+
+<div class="hand">
+ <div class="card">6<div class="line"></div>2</div>
+ <div class="card">5<div class="line"></div>1</div>
+ <div class="card">4<div class="line"></div>4</div>
+ <div class="card">3<div class="line"></div>0</div>
+ <div class="card">2<div class="line"></div>1</div>
+ <div class="card">1<div class="line"></div>1</div>
+ <div class="card">0<div class="line"></div>0</div>
+</div>
+
+<div class="buttons">
+ <button class="create" onclick="pesan('Fitur buat kamar akan segera hadir!')">
+ 👥 BUAT KAMAR
+ </button>
+
+ <button class="join" onclick="pesan('Fitur gabung kamar akan segera hadir!')">
+ 🔎 GABUNG KAMAR
+ </button>
+</div>
+
+<button class="start" onclick="pesan('Lobby siap. Multiplayer sedang dalam pengembangan.')">
+ ▶ MULAI GAME
+</button>
+
+<div id="pesan"></div>
+
+<div class="info">
+ RAFA GAMBLER © 2026<br>
+ Domino klasik • Hiburan online<br>
+ Tanpa taruhan uang asli
+</div>
+
+</main>
+
+<script>
+function pesan(teks){
+ document.getElementById("pesan").innerText=teks;
+}
+</script>
+
+</body>
+</html>
