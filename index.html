@@ -76,4 +76,25 @@ function finishBlocked(){started=false;locked=true;let scores=players.map(p=>p.h
 $('start').onclick=startGame;
 $('pass').onclick=()=>{if(!started||turn!==0||players[0].hand.some(legal))return;passes++;$('status').textContent='Bro melewati giliran.';if(passes>=4){finishBlocked();return}turn=1;render();setTimeout(botTurn,700)};
 render();
-</script></body></html>
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+import { getDatabase } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBTj0IaQsfTF-kakApP4OzkVhL_y3oKRw0",
+  authDomain: "rafa-gambler-online.firebaseapp.com",
+  databaseURL: "https://rafa-gambler-online-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "rafa-gambler-online",
+  storageBucket: "rafa-gambler-online.firebasestorage.app",
+  messagingSenderId: "809995792395",
+  appId: "1:809995792395:web:8c58838602dda7287dd70e"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+console.log("RAFA GAMBLER terhubung ke Firebase");
+   </script>
+</body>
+</html>
