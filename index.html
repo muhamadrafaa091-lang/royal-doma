@@ -14,8 +14,32 @@ main{max-width:700px;margin:auto;padding:15px 12px}.hero{text-align:center;color
 @media(max-width:390px){.tile{width:29px;height:51px}.hand .tile{width:33px;height:58px}.table{min-height:290px;padding-left:5px;padding-right:5px}}
 </style></head>
 <body>
-<header><div class="logo">👑 RAFA GAMBLER</div><div class="tag">DOMINO PREMIUM • DEMO</div></header>
-<main>
+<section id="loginRafa" style="max-width:400px;margin:60px auto;padding:25px;background:#123b29;border:2px solid #d5a33d;border-radius:20px;text-align:center;color:white">
+  <h1 style="color:#ffd46d">👑 RAFA GAMBLER</h1>
+  <p>SELAMAT DATANG PEMAIN</p>
+  <input id="namaPemain" placeholder="Nama pemain" style="width:100%;padding:13px;margin:8px 0">
+  <input id="pinPemain" type="password" placeholder="PIN pemain" style="width:100%;padding:13px;margin:8px 0">
+  <button onclick="masukRafa()" style="width:100%;padding:14px;background:#ffcf58;border:0;border-radius:10px;font-weight:bold">MASUK GAME</button>
+</section>
+ <section id="lobbyRafa" style="display:none;max-width:450px;margin:35px auto;padding:20px;background:#123b29;border:2px solid #d5a33d;border-radius:20px;color:white;text-align:center">
+
+<h1 style="color:#ffd46d">👑 RAFA GAMBLER</h1>
+<p>LOBBY UTAMA</p>
+
+<div style="padding:15px;background:#ffffff15;border-radius:12px">
+👤 <b id="namaLobby">PEMAIN</b>
+</div>
+
+<h3 style="color:#ffd46d">PILIH PERMAINAN</h3>
+
+<button onclick="bukaGaple()" style="width:100%;padding:20px;background:#f4d477;border:2px solid #b88932;border-radius:15px;font-weight:bold;font-size:17px">
+🎴 DOMINO GAPLE
+<br><small>MASUK KE MEJA PERMAINAN</small>
+</button>
+
+ </section>
+ <header><div class="logo">👑 RAFA GAMBLER</div><div class="tag">DOMINO PREMIUM • DEMO</div></header>
+<main id="gameArea" style="display:none">
 <div class="hero"><h1>MEJA DOMINO</h1><p>MODE LATIHAN • 1 PEMAIN + 3 BOT</p></div>
 <section class="table">
  <div class="seat top" id="p2">🤖 Pemain 2 · 7 kartu</div>
@@ -41,6 +65,7 @@ function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()
 function pip(t){return t.a+t.b}
 function legal(t){if(!chain.length)return true;let l=chain[0].a,r=chain[chain.length-1].b;return t.a===l||t.b===l||t.a===r||t.b===r}
 function render(){
+if(!players.length)return;
  $('hand').innerHTML='';
  players[0].hand.forEach((t,i)=>{let e=tileEl(t);e.onclick=()=>{if(!started||turn!==0||locked)return;if(!legal(t)){$('status').textContent='Kartu itu belum cocok dengan ujung meja.';return}selected=i;playHuman(i)};$('hand').appendChild(e)});
  $('board').innerHTML='';
@@ -96,5 +121,29 @@ const db = getDatabase(app);
 
 console.log("RAFA GAMBLER terhubung ke Firebase");
    </script>
+ <script>
+function masukRafa(){
+ const nama=document.getElementById("namaPemain").value.trim();
+ const pin=document.getElementById("pinPemain").value.trim();
+
+ if(nama.length<2){
+  alert("Masukkan nama pemain!");
+  return;
+ }
+
+ if(!/^\d{4,6}$/.test(pin)){
+  alert("PIN harus 4 sampai 6 angka!");
+  return;
+ }
+
+ document.getElementById("namaLobby").textContent=nama;
+ document.getElementById("loginRafa").style.display="none";
+ document.getElementById("lobbyRafa").style.display="block";
+}
+  function bukaGaple(){
+ document.getElementById("lobbyRafa").style.display="none";
+ document.getElementById("gameArea").style.display="block";
+  }
+  </script>
 </body>
 </html>
