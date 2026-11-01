@@ -154,7 +154,10 @@ if(!players.length)return;
  players[0].hand.forEach((t,i)=>{let e=tileEl(t);e.onclick=()=>{if(!started||turn!==0||locked)return;if(!legal(t)){$('status').textContent='Kartu itu belum cocok dengan ujung meja.';return}selected=i;playHuman(i)};$('hand').appendChild(e)});
  $('board').innerHTML='';
  chain.forEach(t=>$('board').appendChild(tileEl(t)));
- [1,2,3].forEach((p,i)=>{$('p'+(p+1)).textContent=`🤖 Pemain ${p+1} · ${players[p].hand.length} kartu`});
+const avatar=['','👨','👩','👨'];
+[1,2,3].forEach((p,i)=>{
+ $('p'+(p+1)).textContent=`${avatar[p]} Pemain ${p+1} · ${players[p].hand.length} kartu`;
+});
  $('p1').textContent=`👑 Bro · ${players[0].hand.length} kartu`;
  $('turn').textContent=started?(turn===0?'Giliran Bro':'Giliran Pemain '+(turn+1)):'Belum dimulai';
  $('pass').disabled=!started||turn!==0||players[0].hand.some(legal)||locked;
