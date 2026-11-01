@@ -241,6 +241,42 @@ function dots(n){
   (pola[n]||[]).map(p=>`<i class="dot pos${p}"></i>`).join('')
  }</div>`;
 }
+ function startGame(){
+ let d=shuffle(makeDeck());
+ players=Array.from({length:4},(_,i)=>({
+  hand:d.slice(i*7,(i+1)*7)
+ }));
+
+ chain=[];
+ turn=0;
+ passes=0;
+ started=true;
+ locked=false;
+
+ let starter=players.findIndex(p=>
+  p.hand.some(t=>t.a===6&&t.b===6)
+ );
+
+ if(starter<0){
+  let best=-1;
+  players.forEach((p,i)=>p.hand.forEach(t=>{
+   if(t.a===t.b&&t.a>best){
+    best=t.a;
+    starter=i;
+   }
+  }));
+ }
+
+ turn=starter<0?0:starter;
+
+ $('status').textContent=turn===0
+  ?'Bro memegang balak tertinggi. Pasang kartu untuk mulai.'
+  :'Bot memegang balak tertinggi dan akan mulai.';
+
+ render();
+
+ if(turn!==0)setTimeout(botTurn,700);
+ }
 function orient(t,end){if(t.a===end)return {...t};if(t.b===end)return {a:t.b,b:t.a,id:t.id};return null}
 function putTile(t,side){if(!chain.length){chain=[{...t}];return true}
  if(side==='left'){let end=chain[0].a,or=orient(t,end);if(!or)return false;chain.unshift(or);return true}
