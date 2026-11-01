@@ -213,6 +213,7 @@ localStorage.setItem("namaRafa", nama);
  document.getElementById("gameArea").style.display="block";
   }
   function logoutRafa(){
+   localStorage.removeItem("namaRafa");
  document.getElementById("gameArea").style.display="none";
  document.getElementById("lobbyRafa").style.display="none";
  document.getElementById("loginRafa").style.display="block";
@@ -222,6 +223,15 @@ localStorage.setItem("namaRafa", nama);
 
  alert("Anda berhasil keluar dari Rafa Gaming!");
   }
+  window.onload = function(){
+ const nama = localStorage.getItem("namaRafa");
+
+ if(nama){
+  document.getElementById("namaLobby").textContent = nama;
+  document.getElementById("loginRafa").style.display = "none";
+  document.getElementById("lobbyRafa").style.display = "block";
+ }
+};
   </script>
 </body>
 </html>
