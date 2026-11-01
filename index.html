@@ -39,40 +39,33 @@ main{max-width:700px;margin:auto;padding:15px 12px}.hero{text-align:center;color
  overflow-y:hidden;
 }
 
-..board .tile{
+
+.board .tile,
+.tile{
  width:66px;
  height:38px;
- margin:0 -5px;
+ min-width:66px;
  flex-shrink:0;
- border-radius:5px;
-}
  margin:0 -5px;
- flex-shrink:0;
- border-radius:5px;
-}
- 
-.tile{
- width:38px;
- height:66px;
  border-radius:6px;
  background:linear-gradient(145deg,#fff,#e8ddc4);
  color:#183c29;
  border:1px solid #c6a76a;
  box-shadow:0 2px 5px #0008;
  display:flex;
- flex-direction:column;
+ flex-direction:row;
  align-items:center;
  justify-content:space-evenly;
- flex-shrink:0;
  padding:2px;
  box-sizing:border-box;
 }
 
 .tile .line{
- width:85%;
- height:1px;
+ width:1px;
+ height:85%;
  background:#999;
 }
+ 
 .hand{
  display:flex;
  gap:3px;
