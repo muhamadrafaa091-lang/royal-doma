@@ -31,7 +31,7 @@ main{max-width:700px;margin:auto;padding:15px 12px}.hero{text-align:center;color
  flex-wrap:nowrap;
  justify-content:center;
  align-items:center;
- gap:0;
+ gap:5px;
  width:100%;
  min-height:180px;
  padding:15px 8px;
@@ -39,26 +39,15 @@ main{max-width:700px;margin:auto;padding:15px 12px}.hero{text-align:center;color
  overflow-y:hidden;
 }
 
-
-.board .tile,
-.tile{
+.board .tile{
  width:66px;
  height:38px;
- min-width:66px;
+ margin:0;
  flex-shrink:0;
- margin:0 -5px;
- border-radius:6px;
- background:linear-gradient(145deg,#fff,#e8ddc4);
- color:#183c29;
- border:1px solid #c6a76a;
- box-shadow:0 2px 5px #0008;
- display:flex;
  flex-direction:row;
- align-items:center;
- justify-content:space-evenly;
- padding:2px;
- box-sizing:border-box;
+ border-radius:5px;
 }
+ 
 
 .tile .line{
  width:1px;
