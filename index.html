@@ -439,14 +439,25 @@ function makeDeck(){let d=[];for(let a=0;a<=6;a++)for(let b=a;b<=6;b++)d.push({a
 function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function pip(t){return t.a+t.b}
 function legal(t){if(!chain.length)return true;let l=chain[0].a,r=chain[chain.length-1].b;return t.a===l||t.b===l||t.a===r||t.b===r}
-function render(){
+function drawSnake(){
+ const board=$('board');
+ board.innerHTML='';
+ const max=5;
+ chain.forEach((t,i)=>{
+  let card=tileEl(t);
+  card.style.flex='0 0 66px';
+  if(i>=max) card.style.transform='rotate(90deg)';
+  board.appendChild(card);
+ });
+}
+ function render(){
 if(!players.length)return;
 $('hand').innerHTML='';
 $('hand').style.display='flex';
 console.log('Kartu Bro:', players[0].hand.length);
  players[0].hand.forEach((t,i)=>{let e=tileEl(t);e.onclick=()=>{if(!started||turn!==0||locked)return;if(!legal(t)){$('status').textContent='Kartu itu belum cocok dengan ujung meja.';return}selected=i;playHuman(i)};$('hand').appendChild(e)});
  $('board').innerHTML='';
- chain.forEach(t=>$('board').appendChild(tileEl(t)));
+ drawSnake();
 const avatar=['','👨','👩','👨'];
 
 [1,2,3].forEach((p)=>{
