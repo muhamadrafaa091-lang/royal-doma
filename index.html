@@ -42,26 +42,25 @@ main{max-width:700px;margin:auto;padding:15px 12px}.hero{text-align:center;color
  flex-shrink:0;
 }
  
-
 .board{
  display:flex;
- flex-wrap:nowrap;
+ flex-wrap:wrap;
  justify-content:center;
  align-items:center;
- gap:5px;
+ gap:4px;
  width:100%;
  min-height:180px;
  padding:15px 8px;
- overflow-x:auto;
- overflow-y:hidden;
-margin-bottom:25px;
+ overflow:visible;
+ margin-bottom:25px;
+ box-sizing:border-box;
 }
 
 .board .tile{
- width:66px;
+ width:clamp(38px, 8vw, 66px);
  height:38px;
  margin:0;
- flex-shrink:0;
+ flex:0 1 auto;
  flex-direction:row;
  border-radius:5px;
 }
