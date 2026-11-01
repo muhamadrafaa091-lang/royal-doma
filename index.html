@@ -440,17 +440,32 @@ function makeDeck(){let d=[];for(let a=0;a<=6;a++)for(let b=a;b<=6;b++)d.push({a
 function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function pip(t){return t.a+t.b}
 function legal(t){if(!chain.length)return true;let l=chain[0].a,r=chain[chain.length-1].b;return t.a===l||t.b===l||t.a===r||t.b===r}
+
 function drawSnake(){
  const board=$('board');
  board.innerHTML='';
+ 
+ board.style.display='flex';
+ board.style.flexWrap='wrap';
+ board.style.justifyContent='center';
+ board.style.alignItems='center';
+ board.style.gap='3px';
+ 
  const max=5;
+
  chain.forEach((t,i)=>{
   let card=tileEl(t);
-  card.style.flex='0 0 66px';
-  if(i>=max) card.style.transform='rotate(90deg)';
+  
+  card.style.flex='0 0 54px';
+  card.style.width='54px';
+  card.style.height='27px';
+  card.style.margin='2px';
+  card.style.transform=i>=max?'rotate(90deg)':'none';
+  
   board.appendChild(card);
  });
-}
+ }
+ 
  function render(){
 if(!players.length)return;
 $('hand').innerHTML='';
