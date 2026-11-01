@@ -442,30 +442,38 @@ function pip(t){return t.a+t.b}
 function legal(t){if(!chain.length)return true;let l=chain[0].a,r=chain[chain.length-1].b;return t.a===l||t.b===l||t.a===r||t.b===r}
 
 function drawSnake(){
- const board=$('board');
- board.innerHTML='';
- 
- board.style.display='flex';
- board.style.flexWrap='wrap';
- board.style.justifyContent='center';
- board.style.alignItems='center';
- board.style.gap='3px';
- 
- const max=5;
+ const board = $('board');
+ board.innerHTML = '';
 
- chain.forEach((t,i)=>{
-  let card=tileEl(t);
-  
-  card.style.flex='0 0 54px';
-  card.style.width='54px';
-  card.style.height='27px';
-  card.style.margin='2px';
-  card.style.transform=i>=max?'rotate(90deg)':'none';
-  
-  board.appendChild(card);
+ const cols = Math.max(3, Math.floor((board.clientWidth - 20) / 58));
+ const cardW = 54;
+ const cardH = 27;
+ const gap = 2;
+
+ board.style.display = 'grid';
+ board.style.gridTemplateColumns = `repeat(${cols}, ${cardW}px)`;
+ board.style.gridAutoRows = `${cardH}px`;
+ board.style.justifyContent = 'center';
+ board.style.alignContent = 'start';
+ board.style.gap = `${gap}px`;
+
+ chain.forEach((t, i) => {
+   const row = Math.floor(i / cols);
+   const pos = i % cols;
+   const card = tileEl(t);
+
+   card.style.width = `${cardW}px`;
+   card.style.height = `${cardH}px`;
+   card.style.margin = '0';
+   card.style.flex = 'none';
+
+   const col = row % 2 === 0 ? pos + 1 : cols - pos;
+   card.style.gridColumn = col;
+   card.style.gridRow = row + 1;
+
+   board.appendChild(card);
  });
  }
- 
  function render(){
 if(!players.length)return;
 $('hand').innerHTML='';
