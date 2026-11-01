@@ -257,6 +257,7 @@ function legal(t){if(!chain.length)return true;let l=chain[0].a,r=chain[chain.le
 function render(){
 if(!players.length)return;
  $('hand').innerHTML='';
+ console.log('Kartu Bro:', players[0].hand.length);
  players[0].hand.forEach((t,i)=>{let e=tileEl(t);e.onclick=()=>{if(!started||turn!==0||locked)return;if(!legal(t)){$('status').textContent='Kartu itu belum cocok dengan ujung meja.';return}selected=i;playHuman(i)};$('hand').appendChild(e)});
  $('board').innerHTML='';
  chain.forEach(t=>$('board').appendChild(tileEl(t)));
