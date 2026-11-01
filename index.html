@@ -181,6 +181,82 @@ header{
  background:#27123cdd!important;
  border-color:#e9b84b!important;
 }
+
+/* DESAIN KARTU DOMINO RAFA */
+.tile{
+  display:flex;
+  align-items:center;
+  justify-content:space-evenly;
+  background:#fff8e8;
+  border:1.5px solid #b58b45;
+  border-radius:5px;
+  padding:3px;
+  box-shadow:0 2px 5px #0005;
+  flex-shrink:0;
+  overflow:hidden;
+}
+
+.tile .dots{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.dotbox{
+  width:30px;
+  height:28px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:repeat(3,1fr);
+}
+
+.dot{
+  width:6px;
+  height:6px;
+  background:#171717;
+  border-radius:50%;
+  justify-self:center;
+  align-self:center;
+}
+
+/* KARTU DI TANGAN */
+.hand .tile{
+  flex-direction:column;
+  width:39px;
+  height:65px;
+  flex:0 0 39px;
+}
+
+.hand .tile .line{
+  width:85%;
+  height:1px;
+  background:#a58b60;
+}
+
+/* KARTU DI MEJA */
+.board .tile{
+  flex-direction:row;
+  width:66px;
+  height:38px;
+}
+
+.board .tile .line{
+  width:1px;
+  height:85%;
+  background:#a58b60;
+}
+
+/* KARTU TERTUTUP BOT */
+.bot-card{
+  width:18px;
+  height:30px;
+  background:linear-gradient(135deg,#ffe18a,#b77a20);
+  border:1px solid #fff0bd;
+  border-radius:4px;
+  flex-shrink:0;
+ }
+ 
+ 
 </style></head>
 <body>
 
