@@ -9,7 +9,22 @@ header{padding:16px;display:flex;justify-content:space-between;align-items:cente
 main{max-width:700px;margin:auto;padding:15px 12px}.hero{text-align:center;color:#ffd46d;margin:10px 0 17px}.hero h1{margin:0;font-size:27px}.hero p{color:#c8e4d2;font-size:11px;letter-spacing:2px}
 .table{position:relative;min-height:310px;border:8px solid #a8732d;border-radius:30px;background:radial-gradient(#238354,#105033 70%,#092b1b);box-shadow:0 0 22px #d9a33a44,inset 0 0 20px #0008;padding:72px 12px 65px;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .seat{position:absolute;background:#102a20dd;border:1px solid #e5bd65;border-radius:20px;padding:7px 10px;font-size:11px}.top{top:9px;left:50%;transform:translateX(-50%)}.left{left:7px;top:48%}.right{right:7px;top:48%}.bottom{bottom:9px;left:50%;transform:translateX(-50%)}
-.board{
+.bot-hand{
+ display:flex;
+ justify-content:center;
+ gap:2px;
+ margin-top:5px;
+}
+
+.bot-card{
+ width:12px;
+ height:23px;
+ background:#d8b45e;
+ border:1px solid #fff0bd;
+ border-radius:3px;
+ flex-shrink:0;
+}
+ .board{
 .board{
  display:flex;
  flex-wrap:wrap;
@@ -179,9 +194,21 @@ style="width:260px;max-width:90%;height:auto;display:block;margin:15px auto">
 <main id="gameArea" style="display:none">
 <div class="hero"><h1>MEJA DOMINO</h1><p>MODE LATIHAN • 1 PEMAIN + 3 BOT</p></div>
 <section class="table">
-<div class="seat top" id="p2">👨 Pemain 2 · 7 kartu</div>
-<div class="seat left" id="p3">👩 Pemain 3 · 7 kartu</div>
-<div class="seat right" id="p4">👨 Pemain 4 · 7 kartu</div>
+<div class="seat top" id="p2">
+ 👨 Pemain 2
+ <div class="bot-hand" id="cards2"></div>
+</div>
+
+<div class="seat left" id="p3">
+ 👩 Pemain 3
+ <div class="bot-hand" id="cards3"></div>
+</div>
+
+<div class="seat right" id="p4">
+ 👨 Pemain 4
+ <div class="bot-hand" id="cards4"></div>
+</div>
+
 <div class="seat bottom" id="p1">👑 Bro · 7 kartu</div>
  <div class="board" id="board"><div style="text-align:center;color:#e4f1e8;font-size:12px">Kartu domino akan muncul di sini</div></div>
 </section>
@@ -208,13 +235,21 @@ if(!players.length)return;
  $('board').innerHTML='';
  chain.forEach(t=>$('board').appendChild(tileEl(t)));
 const avatar=['','👨','👩','👨'];
-[1,2,3].forEach((p,i)=>{
- $('p'+(p+1)).textContent=`${avatar[p]} Pemain ${p+1} · ${players[p].hand.length} kartu`;
+
+[1,2,3].forEach((p)=>{
+ $('p'+(p+1)).innerHTML=
+ `${avatar[p]} Pemain ${p+1}
+ <div class="bot-hand" id="cards${p+1}">
+ ${players[p].hand.map(()=>'<div class="bot-card"></div>').join('')}
+ </div>`;
 });
- $('p1').textContent=`👑 Bro · ${players[0].hand.length} kartu`;
- $('turn').textContent=started?(turn===0?'Giliran Bro':'Giliran Pemain '+(turn+1)):'Belum dimulai';
- $('pass').disabled=!started||turn!==0||players[0].hand.some(legal)||locked;
-}
+
+$('p1').textContent=`👑 Bro · ${players[0].hand.length} kartu`;
+
+$('turn').textContent=started?(turn===0?'Giliran Bro':'Giliran Pemain '+(turn+1)):'Belum dimulai';
+
+$('pass').disabled=!started||turn!==0||players[0].hand.some(legal)||locked;
+ }
 function tileEl(t){
  let e=document.createElement('div');
  e.className='tile';
