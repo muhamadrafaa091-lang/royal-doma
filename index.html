@@ -24,7 +24,7 @@ main{max-width:700px;margin:auto;padding:15px 12px}.hero{text-align:center;color
  border-radius:3px;
  flex-shrink:0;
 }
- .board{
+ 
 .board{
  display:flex;
  flex-wrap:wrap;
@@ -66,7 +66,32 @@ main{max-width:700px;margin:auto;padding:15px 12px}.hero{text-align:center;color
  height:1px;
  background:#999;
 }
+.hand{
+ display:flex;
+ gap:3px;
+ justify-content:center;
+ flex-wrap:nowrap;
+ overflow-x:auto;
+ width:100%;
+ padding:10px 3px;
+ box-sizing:border-box;
+}
 
+.hand .tile{
+ width:39px;
+ height:65px;
+ flex:0 0 39px;
+ cursor:pointer;
+}
+
+.hand .tile:active{
+ transform:translateY(-5px);
+}
+
+.hand .tile.selected{
+ outline:3px solid #ffd46d;
+ transform:translateY(-6px);
+}
 .dotbox{
  width:27px;
  height:25px;
