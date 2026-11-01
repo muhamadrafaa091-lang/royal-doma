@@ -256,8 +256,9 @@ function pip(t){return t.a+t.b}
 function legal(t){if(!chain.length)return true;let l=chain[0].a,r=chain[chain.length-1].b;return t.a===l||t.b===l||t.a===r||t.b===r}
 function render(){
 if(!players.length)return;
- $('hand').innerHTML='';
- console.log('Kartu Bro:', players[0].hand.length);
+$('hand').innerHTML='';
+$('hand').style.display='flex';
+console.log('Kartu Bro:', players[0].hand.length);
  players[0].hand.forEach((t,i)=>{let e=tileEl(t);e.onclick=()=>{if(!started||turn!==0||locked)return;if(!legal(t)){$('status').textContent='Kartu itu belum cocok dengan ujung meja.';return}selected=i;playHuman(i)};$('hand').appendChild(e)});
  $('board').innerHTML='';
  chain.forEach(t=>$('board').appendChild(tileEl(t)));
@@ -332,6 +333,7 @@ function dots(n){
  }
 
  turn=starter<0?0:starter;
+  console.log('Total kartu:', players[0].hand.length);
 
  $('status').textContent=turn===0
   ?'Bro memegang balak tertinggi. Pasang kartu untuk mulai.'
