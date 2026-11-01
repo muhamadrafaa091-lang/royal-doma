@@ -94,8 +94,34 @@ main{max-width:700px;margin:auto;padding:15px 12px}.hero{text-align:center;color
 .pos7{grid-area:3/3}
 .pos8{grid-area:1/2}
 .pos9{grid-area:3/2}
- handtitle{display:flex;justify-content:space-between;margin:18px 2px 9px;font-size:13px}.handtitle span{color:#c8e4d2;font-size:11px}.hand{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}.hand .tile{cursor:pointer;width:39px;height:65px}.hand .tile:active{transform:translateY(-5px)}.hand .tile.selected{outline:3px solid #ffd46d;transform:translateY(-6px)}
-.controls{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}button{border:0;border-radius:12px;padding:13px;font-weight:bold;font-size:13px;cursor:pointer}.gold{background:linear-gradient(#ffdf75,#e79a17);color:#38230b}.dark{background:#ffffff16;border:1px solid #ffffff55;color:white}.status{text-align:center;min-height:35px;color:#ffdc83;font-size:12px;padding:10px 3px}.small{text-align:center;color:#b9d7c4;font-size:10px;line-height:1.5;margin-top:15px}
+ .hand{
+ display:flex;
+ gap:3px;
+ justify-content:flex-start;
+ flex-wrap:nowrap;
+ overflow-x:auto;
+ overflow-y:hidden;
+ width:100%;
+ padding:8px 3px 12px;
+ box-sizing:border-box;
+}
+
+.hand .tile{
+ cursor:pointer;
+ width:39px;
+ height:65px;
+ flex:0 0 39px;
+}
+
+.hand .tile:active{
+ transform:translateY(-5px);
+}
+
+.hand .tile.selected{
+ outline:3px solid #ffd46d;
+ transform:translateY(-6px);
+}
+  .controls{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}button{border:0;border-radius:12px;padding:13px;font-weight:bold;font-size:13px;cursor:pointer}.gold{background:linear-gradient(#ffdf75,#e79a17);color:#38230b}.dark{background:#ffffff16;border:1px solid #ffffff55;color:white}.status{text-align:center;min-height:35px;color:#ffdc83;font-size:12px;padding:10px 3px}.small{text-align:center;color:#b9d7c4;font-size:10px;line-height:1.5;margin-top:15px}
 @media(max-width:390px){.tile{width:29px;height:51px}.hand .tile{width:33px;height:58px}.table{min-height:290px;padding-left:5px;padding-right:5px}}
 /* TEMA PREMIUM RAFA GAMBLER */
 body{
