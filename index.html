@@ -353,6 +353,17 @@ header{
  z-index:5 !important;
  white-space:nowrap;
 } 
+ .hand .tile{
+  touch-action:none;
+  user-select:none;
+  -webkit-user-select:none;
+}
+
+.board{
+  position:relative;
+  touch-action:pan-x pan-y;
+}
+</style>
 </style></head>
 <body>
 
@@ -489,6 +500,67 @@ function drawSnake(){
  });
     }
  
+function playHumanSide(i, side){
+ if(!started || turn!==0 || locked)return;
+
+ let t=players[0].hand[i];
+
+ if(!legal(t)){
+   $('status').textContent='Angka kartu tidak cocok.';
+   return;
+ }
+
+ if(!putTile(t,side))return;
+
+ players[0].hand.splice(i,1);
+ selected=-1;
+ afterPlay(0);
+ }
+ 
+ 
+function enableCardDrag(card,i){
+ let startX=0;
+ let startY=0;
+ let moved=false;
+
+ card.addEventListener('pointerdown',e=>{
+   if(!started || turn!==0 || locked)return;
+
+   startX=e.clientX;
+   startY=e.clientY;
+   moved=false;
+
+   card.setPointerCapture(e.pointerId);
+ });
+
+ card.addEventListener('pointermove',e=>{
+   if(!started || turn!==0 || locked)return;
+
+   let dx=e.clientX-startX;
+   let dy=e.clientY-startY;
+
+   if(Math.abs(dx)>12 || Math.abs(dy)>12){
+     moved=true;
+     card.style.transform=`translate(${dx}px,${dy}px)`;
+   }
+ });
+
+ card.addEventListener('pointerup',e=>{
+   if(!moved)return;
+
+   let dx=e.clientX-startX;
+   card.style.transform='';
+
+   if(Math.abs(dx)<40)return;
+
+   let side=dx<0?'left':'right';
+   playHumanSide(i,side);
+ });
+
+ card.addEventListener('pointercancel',()=>{
+   card.style.transform='';
+ });
+ }
  
 
  
@@ -497,8 +569,21 @@ if(!players.length)return;
 $('hand').innerHTML='';
 $('hand').style.display='flex';
 console.log('Kartu Bro:', players[0].hand.length);
- players[0].hand.forEach((t,i)=>{let e=tileEl(t);e.onclick=()=>{if(!started||turn!==0||locked)return;if(!legal(t)){$('status').textContent='Kartu itu belum cocok dengan ujung meja.';return}selected=i;playHuman(i)};$('hand').appendChild(e)});
- $('board').innerHTML='';
+ players[0].hand.forEach((t,i)=>{
+ let e=tileEl(t);
+ enableCardDrag(e,i);
+ e.onclick=()=>{
+   if(!started||turn!==0||locked)return;
+   if(!legal(t)){
+     $('status').textContent='Kartu itu belum cocok dengan ujung meja.';
+     return;
+   }
+   selected=i;
+   playHuman(i);
+ };
+ $('hand').appendChild(e);
+});
+  $('board').innerHTML='';
  drawSnake();
 const avatar=['','👨','👩','👨'];
 
