@@ -441,39 +441,53 @@ function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()
 function pip(t){return t.a+t.b}
 function legal(t){if(!chain.length)return true;let l=chain[0].a,r=chain[chain.length-1].b;return t.a===l||t.b===l||t.a===r||t.b===r}
 
+
 function drawSnake(){
  const board = $('board');
  board.innerHTML = '';
 
- const cols = Math.max(3, Math.floor((board.clientWidth - 20) / 58));
  const cardW = 54;
  const cardH = 27;
- const gap = 2;
+ const gap = 0;
+ const cols = Math.max(3, Math.floor((board.clientWidth - 20) / cardW));
 
  board.style.display = 'grid';
  board.style.gridTemplateColumns = `repeat(${cols}, ${cardW}px)`;
  board.style.gridAutoRows = `${cardH}px`;
  board.style.justifyContent = 'center';
  board.style.alignContent = 'start';
- board.style.gap = `${gap}px`;
+ board.style.gap = '0px';
 
  chain.forEach((t, i) => {
-   const row = Math.floor(i / cols);
-   const pos = i % cols;
    const card = tileEl(t);
 
    card.style.width = `${cardW}px`;
    card.style.height = `${cardH}px`;
    card.style.margin = '0';
    card.style.flex = 'none';
+   card.style.boxSizing = 'border-box';
 
-   const col = row % 2 === 0 ? pos + 1 : cols - pos;
+   const row = Math.floor(i / cols);
+   const pos = i % cols;
+
+   let col = row % 2 === 0
+     ? pos + 1
+     : cols - pos;
+
    card.style.gridColumn = col;
    card.style.gridRow = row + 1;
+
+   // Arah kartu mengikuti jalur ular
+   if(row % 2 === 1){
+     card.style.transform = 'rotate(180deg)';
+   }else{
+     card.style.transform = 'none';
+   }
 
    board.appendChild(card);
  });
  }
+ 
  function render(){
 if(!players.length)return;
 $('hand').innerHTML='';
