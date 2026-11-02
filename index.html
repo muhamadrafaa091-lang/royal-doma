@@ -451,34 +451,38 @@ function drawSnake(){
  const gap = 0;
  const cols = Math.max(3, Math.floor((board.clientWidth - 20) / cardW));
 
+ const rows = Math.ceil(chain.length / cols);
+
  board.style.display = 'grid';
  board.style.gridTemplateColumns = `repeat(${cols}, ${cardW}px)`;
  board.style.gridAutoRows = `${cardH}px`;
  board.style.justifyContent = 'center';
  board.style.alignContent = 'start';
  board.style.gap = '0px';
+ board.style.minWidth = '100%';
 
  chain.forEach((t, i) => {
    const card = tileEl(t);
-
-   card.style.width = `${cardW}px`;
-   card.style.height = `${cardH}px`;
-   card.style.margin = '0';
-   card.style.flex = 'none';
-   card.style.boxSizing = 'border-box';
-
    const row = Math.floor(i / cols);
    const pos = i % cols;
 
-   let col = row % 2 === 0
-     ? pos + 1
-     : cols - pos;
+   const reverse = row % 2 === 1;
+   const col = reverse ? cols - pos : pos + 1;
+
+   card.style.width = `${cardW}px`;
+   card.style.height = `${cardH}px`;
+   card.style.padding = '2px';
+   card.style.margin = '0';
+   card.style.boxSizing = 'border-box';
+   card.style.flex = 'none';
 
    card.style.gridColumn = col;
    card.style.gridRow = row + 1;
 
-   // Arah kartu mengikuti jalur ular
-   if(row % 2 === 1){
+   // Belokan vertikal di ujung baris
+   if(pos === cols - 1 && row < rows - 1){
+     card.style.transform = 'rotate(90deg)';
+   }else if(reverse){
      card.style.transform = 'rotate(180deg)';
    }else{
      card.style.transform = 'none';
@@ -486,7 +490,9 @@ function drawSnake(){
 
    board.appendChild(card);
  });
- }
+}
+ 
+
  
  function render(){
 if(!players.length)return;
