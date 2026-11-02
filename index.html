@@ -731,7 +731,7 @@ function playHuman(i){
  players[0].hand.splice(i,1);
  afterPlay(0);
  }
- 
+ console.log('CHAIN:', chain.map(x=>`${x.a}|${x.b}`));
  function afterPlay(who){passes=0;render();if(players[who].hand.length===0){finish(who);return}turn=(who+1)%4;$('status').textContent=who===0?'Kartu berhasil dipasang.':'Bot memasang kartu.';render();if(turn!==0)setTimeout(botTurn,750)}
 function botTurn(){if(!started||turn===0||locked)return;let p=players[turn],idx=p.hand.findIndex(legal);
  if(idx<0){passes++;$('status').textContent=`Pemain ${turn+1} melewati giliran.`;if(passes>=4){finishBlocked();return}turn=(turn+1)%4;render();if(turn!==0)setTimeout(botTurn,650);return}
