@@ -363,6 +363,19 @@ header{
   position:relative;
   touch-action:pan-x pan-y;
 }
+ 
+/* KARTU MELAYANG SAAT DITARIK */
+.drag-floating{
+  position:fixed !important;
+  z-index:99999 !important;
+  width:66px !important;
+  height:38px !important;
+  pointer-events:none !important;
+  opacity:1 !important;
+  transform:translate(-50%,-50%) !important;
+  box-shadow:0 8px 18px #0008;
+}
+ 
 </style>
 </style></head>
 <body>
@@ -518,9 +531,11 @@ function playHumanSide(i, side){
  }
  
  
+
 function enableCardDrag(card,i){
  let startX=0;
  let startY=0;
+ let floating=null;
  let moved=false;
 
  card.addEventListener('pointerdown',e=>{
@@ -529,8 +544,6 @@ function enableCardDrag(card,i){
    startX=e.clientX;
    startY=e.clientY;
    moved=false;
-
-   card.setPointerCapture(e.pointerId);
  });
 
  card.addEventListener('pointermove',e=>{
@@ -539,29 +552,46 @@ function enableCardDrag(card,i){
    let dx=e.clientX-startX;
    let dy=e.clientY-startY;
 
-   if(Math.abs(dx)>12 || Math.abs(dy)>12){
+   if(Math.abs(dx)>10 || Math.abs(dy)>10){
      moved=true;
-     card.style.transform=`translate(${dx}px,${dy}px)`;
+
+     if(!floating){
+       floating=card.cloneNode(true);
+       floating.classList.add('drag-floating');
+       document.body.appendChild(floating);
+       card.style.opacity='0.3';
+     }
+
+     floating.style.left=e.clientX+'px';
+     floating.style.top=e.clientY+'px';
    }
  });
 
  card.addEventListener('pointerup',e=>{
    if(!moved)return;
 
-   let dx=e.clientX-startX;
-   card.style.transform='';
+   if(floating){
+     let board=$('board');
+     let rect=board.getBoundingClientRect();
 
-   if(Math.abs(dx)<40)return;
+     let side=e.clientX < rect.left+rect.width/2
+       ? 'left':'right';
 
-   let side=dx<0?'left':'right';
-   playHumanSide(i,side);
+     floating.remove();
+     floating=null;
+     card.style.opacity='';
+
+     playHumanSide(i,side);
+   }
  });
 
  card.addEventListener('pointercancel',()=>{
-   card.style.transform='';
+   if(floating)floating.remove();
+   floating=null;
+   card.style.opacity='';
  });
  }
- 
+  
 
  
  function render(){
