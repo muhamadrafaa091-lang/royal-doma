@@ -704,9 +704,35 @@ function orient(t,end){if(t.a===end)return {...t};if(t.b===end)return {a:t.b,b:t
 function putTile(t,side){if(!chain.length){chain=[{...t}];return true}
  if(side==='left'){let end=chain[0].a,or=orient(t,end);if(!or)return false;chain.unshift(or);return true}
  let end=chain[chain.length-1].b,or=orient(t,end);if(!or)return false;chain.push(or);return true}
-function playHuman(i){let t=players[0].hand[i];let side='right';if(chain.length){if(t.a!==chain[chain.length-1].b&&t.b!==chain[chain.length-1].b)side='left'}
- if(!putTile(t,side))return;players[0].hand.splice(i,1);afterPlay(0)}
-function afterPlay(who){passes=0;render();if(players[who].hand.length===0){finish(who);return}turn=(who+1)%4;$('status').textContent=who===0?'Kartu berhasil dipasang.':'Bot memasang kartu.';render();if(turn!==0)setTimeout(botTurn,750)}
+
+function playHuman(i){
+ let t=players[0].hand[i];
+ let side='right';
+
+ if(chain.length){
+   let ujungKanan=chain[chain.length-1].b;
+   let ujungKiri=chain[0].a;
+
+   if(t.a===ujungKanan){
+     side='right';
+   }else if(t.b===ujungKanan){
+     t={...t,a:t.b,b:t.a};
+     side='right';
+   }else if(t.b===ujungKiri){
+     side='left';
+   }else if(t.a===ujungKiri){
+     t={...t,a:t.b,b:t.a};
+     side='left';
+   }
+ }
+
+ if(!putTile(t,side))return;
+
+ players[0].hand.splice(i,1);
+ afterPlay(0);
+ }
+ 
+ function afterPlay(who){passes=0;render();if(players[who].hand.length===0){finish(who);return}turn=(who+1)%4;$('status').textContent=who===0?'Kartu berhasil dipasang.':'Bot memasang kartu.';render();if(turn!==0)setTimeout(botTurn,750)}
 function botTurn(){if(!started||turn===0||locked)return;let p=players[turn],idx=p.hand.findIndex(legal);
  if(idx<0){passes++;$('status').textContent=`Pemain ${turn+1} melewati giliran.`;if(passes>=4){finishBlocked();return}turn=(turn+1)%4;render();if(turn!==0)setTimeout(botTurn,650);return}
  let t=p.hand[idx],side='right';if(chain.length&&t.a!==chain[chain.length-1].b&&t.b!==chain[chain.length-1].b)side='left';
