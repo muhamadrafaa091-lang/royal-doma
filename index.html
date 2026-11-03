@@ -478,9 +478,26 @@ PUSAT PENGEMBANGAN RAFA GAMING
 <p>Bangun dan kembangkan permainan bersama Rafa Gaming.</p>
 </div>
 
-<button onclick="daftarDeveloper()" style="width:100%;padding:17px;background:#dca83c;border:2px solid #fff0b0;border-radius:13px;color:#321b08;font-weight:bold;font-size:17px">
-📝 DAFTAR DEVELOPER
+
+<div style="padding:18px;margin-top:20px;background:#ffffff10;border:1px solid #e9b84b;border-radius:15px;text-align:left">
+
+<h3 style="color:#ffd46d;text-align:center">📝 PENDAFTARAN DEVELOPER</h3>
+
+<label>Nama Developer</label>
+<input id="devNama" type="text" placeholder="Masukkan nama lengkap" style="width:100%;padding:13px;margin:8px 0 15px;box-sizing:border-box;border-radius:8px">
+
+<label>Email Developer</label>
+<input id="devEmail" type="email" placeholder="Masukkan email aktif" style="width:100%;padding:13px;margin:8px 0 15px;box-sizing:border-box;border-radius:8px">
+
+<label>Jenis Game yang Ingin Dibuat</label>
+<textarea id="devGame" placeholder="Contoh: game kartu, puzzle, arcade..." style="width:100%;padding:13px;margin:8px 0 15px;box-sizing:border-box;border-radius:8px;min-height:90px"></textarea>
+
+<button onclick="daftarDeveloper()" style="width:100%;padding:16px;background:#dca83c;border:2px solid #fff0b0;border-radius:12px;color:#321b08;font-weight:bold;font-size:16px">
+KIRIM PENDAFTARAN
 </button>
+
+</div>
+ 
 
 <button onclick="alert('Fitur pengajuan game segera hadir!')" style="width:100%;padding:17px;margin-top:12px;background:#173b70;border:1px solid #e9b84b;border-radius:13px;color:#ffd46d;font-weight:bold">
 🎮 PENGAJUAN GAME
@@ -877,6 +894,30 @@ function bukaDeveloperCenter(){
   dev.style.display="block";
  }
                                    }
+
+  
+function daftarDeveloper(){
+ const nama=document.getElementById("devNama").value.trim();
+ const email=document.getElementById("devEmail").value.trim();
+ const game=document.getElementById("devGame").value.trim();
+
+ if(!nama||!email||!game){
+  alert("Lengkapi semua data pendaftaran!");
+  return;
+ }
+
+ const data={
+  nama:nama,
+  email:email,
+  game:game,
+  status:"Menunggu Persetujuan",
+  tanggal:new Date().toISOString()
+ };
+
+ localStorage.setItem("pendaftaranDeveloper",JSON.stringify(data));
+
+ alert("Pendaftaran berhasil disimpan. Menunggu persetujuan Admin Rafa.");
+  }
   
   </script>
 </body>
