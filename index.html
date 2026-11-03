@@ -503,6 +503,11 @@ KIRIM PENDAFTARAN
 🎮 PENGAJUAN GAME
 </button>
 
+<button onclick="bukaAdminRafa()" style="width:100%;padding:17px;margin-top:12px;background:linear-gradient(135deg,#dca83c,#9b6815);border:2px solid #fff0b0;border-radius:13px;color:#321b08;font-weight:bold;font-size:17px">
+👑 ADMIN RAFA
+<br><small>PANEL KENDALI</small>
+</button>
+ 
 <button onclick="document.getElementById('developerCenter').style.display='none';document.getElementById('lobbyRafa').style.display='block'" style="width:100%;padding:15px;margin-top:25px;background:#101c32;border:1px solid #e9b84b;border-radius:13px;color:white;font-weight:bold">
 ↩ KEMBALI KE LOBBY
 </button>
@@ -975,6 +980,12 @@ function prosesDeveloper(status){
 
  lihatPendaftaran();
  alert("Status developer: "+status);
+  }
+ 
+function bukaAdminRafa(){
+ document.getElementById("developerCenter").style.display="none";
+ document.getElementById("adminRafa").style.display="block";
+ lihatPendaftaran();
   }
   
   </script>
