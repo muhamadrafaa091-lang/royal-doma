@@ -462,6 +462,36 @@ style="width:260px;max-width:90%;height:auto;display:block;margin:15px auto">
 <div class="status" id="status">Mode latihan lokal. Belum terhubung ke pemain internet.</div>
 <div class="small">RAFA GAMBLER © 2026 · Domino untuk hiburan tanpa taruhan uang asli.</div>
 </main>
+ 
+<section id="developerCenter" style="display:none;max-width:100%;min-height:85vh;margin:0 auto;padding:25px 18px;background:radial-gradient(circle at top,#173b70,#081a36 70%,#050d1c);border:2px solid #e9b84b;border-radius:22px;color:white;text-align:center;box-shadow:0 0 25px #173b7066">
+
+<h2 style="color:#ffd46d;letter-spacing:2px">
+👨‍💻 RAFA DEVELOPER CENTER
+</h2>
+
+<p style="color:#d6e3ff;font-size:13px">
+PUSAT PENGEMBANGAN RAFA GAMING
+</p>
+
+<div style="padding:20px;margin:25px 0;background:#ffffff10;border:1px solid #e9b84b;border-radius:15px">
+<h3 style="color:#ffd46d">SELAMAT DATANG, DEVELOPER!</h3>
+<p>Bangun dan kembangkan permainan bersama Rafa Gaming.</p>
+</div>
+
+<button onclick="daftarDeveloper()" style="width:100%;padding:17px;background:#dca83c;border:2px solid #fff0b0;border-radius:13px;color:#321b08;font-weight:bold;font-size:17px">
+📝 DAFTAR DEVELOPER
+</button>
+
+<button onclick="alert('Fitur pengajuan game segera hadir!')" style="width:100%;padding:17px;margin-top:12px;background:#173b70;border:1px solid #e9b84b;border-radius:13px;color:#ffd46d;font-weight:bold">
+🎮 PENGAJUAN GAME
+</button>
+
+<button onclick="document.getElementById('developerCenter').style.display='none';document.getElementById('lobbyRafa').style.display='block'" style="width:100%;padding:15px;margin-top:25px;background:#101c32;border:1px solid #e9b84b;border-radius:13px;color:white;font-weight:bold">
+↩ KEMBALI KE LOBBY
+</button>
+
+</section>
+ 
 <script>
 const $=id=>document.getElementById(id);
 let players=[],chain=[],turn=0,started=false,passes=0,selected=null,locked=false;
@@ -837,6 +867,17 @@ localStorage.setItem("namaRafa", nama);
   document.getElementById("lobbyRafa").style.display = "block";
  }
 };
+  
+function bukaDeveloperCenter(){
+ document.getElementById("lobbyRafa").style.display="none";
+
+ let dev = document.getElementById("developerCenter");
+
+ if(dev){
+  dev.style.display="block";
+ }
+                                   }
+  
   </script>
 </body>
 </html>
