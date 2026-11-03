@@ -522,7 +522,23 @@ KIRIM PENDAFTARAN
 <div id="daftarDevAdmin" style="padding:15px;background:#ffffff12;border:1px solid #e9b84b;border-radius:12px">
 Belum ada data pendaftaran.
 </div>
+<div id="loginAdminBox" style="padding:18px;margin:20px 0;background:#ffffff12;border:1px solid #e9b84b;border-radius:15px">
 
+<h3 style="color:#ffd46d">🔐 LOGIN ADMIN RAFA</h3>
+
+<input id="emailAdmin" type="email"
+placeholder="Email Admin"
+style="width:100%;padding:13px;margin:8px 0">
+
+<input id="passwordAdmin" type="password"
+placeholder="Password Admin"
+style="width:100%;padding:13px;margin:8px 0">
+
+<button onclick="loginAdminFirebase()" style="width:100%;padding:14px;background:#173b70;color:#ffd46d;border:1px solid #e9b84b;border-radius:10px;font-weight:bold">
+MASUK ADMIN
+</button>
+
+</div>
 <button onclick="lihatPendaftaran()" style="width:100%;padding:14px;margin-top:15px;background:#dca83c;border:0;border-radius:10px;font-weight:bold">
 🔄 PERIKSA PENDAFTARAN
 </button>
@@ -867,6 +883,40 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
+ window.loginAdminFirebase = async function(){
+  const email = document.getElementById("emailAdmin").value.trim();
+  const password = document.getElementById("passwordAdmin").value;
+
+  if(!email || !password){
+    alert("Masukkan email dan password Admin!");
+    return;
+  }
+
+  try {
+    const hasil = await signInWithEmailAndPassword(auth, email, password);
+
+    if(hasil.user.uid !== "D2s8bgFZyBcg4H1Qdeut9YQTytO2"){
+      await signOut(auth);
+      alert("Akun ini bukan Admin Rafa!");
+      return;
+    }
+
+    document.getElementById("loginAdminBox").style.display = "none";
+    document.getElementById("daftarDevAdmin").style.display = "block";
+    lihatPendaftaran();
+
+    alert("Selamat datang, Admin Rafa!");
+  } catch(error) {
+    alert("Login gagal: " + error.message);
+  }
+};
+ onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("Admin/akun berhasil login:", user.uid);
+  } else {
+    console.log("Belum ada akun yang login");
+  }
+});
 console.log("RAFA GAMBLER terhubung ke Firebase");
    </script>
  <script>
