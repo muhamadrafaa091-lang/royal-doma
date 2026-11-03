@@ -701,10 +701,36 @@ function dots(n){
  if(turn!==0)setTimeout(botTurn,700);
  }
 function orient(t,end){if(t.a===end)return {...t};if(t.b===end)return {a:t.b,b:t.a,id:t.id};return null}
-function putTile(t,side){if(!chain.length){chain=[{...t}];return true}
- if(side==='left'){let end=chain[0].a,or=orient(t,end);if(!or)return false;chain.unshift(or);return true}
- let end=chain[chain.length-1].b,or=orient(t,end);if(!or)return false;chain.push(or);return true}
 
+function putTile(t,side){
+ if(!chain.length){
+  chain=[{...t}];
+  return true;
+ }
+
+ if(side==='left'){
+  let end=chain[0].a;
+  let or=null;
+
+  if(t.b===end){
+   or={...t};
+  }else if(t.a===end){
+   or={a:t.b,b:t.a,id:t.id};
+  }
+
+  if(!or)return false;
+  chain.unshift(or);
+  return true;
+ }
+
+ let end=chain[chain.length-1].b;
+ let or=orient(t,end);
+
+ if(!or)return false;
+ chain.push(or);
+ return true;
+               }
+ 
 function playHuman(i){
  let t=players[0].hand[i];
  let side='right';
