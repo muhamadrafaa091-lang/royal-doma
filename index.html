@@ -895,8 +895,7 @@ const auth = getAuth(app);
   try {
     const hasil = await signInWithEmailAndPassword(auth, email, password);
 
-    if(hasil.user.uid !== "D2s8bgFZyBcg4H1Qdeut9YQTytO2"){
-      await signOut(auth);
+    if(hasil.user.uid !== "Tb007twouPfwNqKGG4ps9NJZogM2"){
       alert("Akun ini bukan Admin Rafa!");
       return;
     }
