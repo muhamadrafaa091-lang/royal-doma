@@ -848,7 +848,12 @@ render();
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
 import { getDatabase } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
-
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
 const firebaseConfig = {
   apiKey: "AIzaSyBTj0IaQsfTF-kakApP4OzkVhL_y3oKRw0",
   authDomain: "rafa-gambler-online.firebaseapp.com",
@@ -861,7 +866,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-
+const auth = getAuth(app);
 console.log("RAFA GAMBLER terhubung ke Firebase");
    </script>
  <script>
