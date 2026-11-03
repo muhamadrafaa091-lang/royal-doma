@@ -509,6 +509,25 @@ KIRIM PENDAFTARAN
 
 </section>
  
+<section id="adminRafa" style="display:none;padding:22px;background:radial-gradient(circle at top,#173b70,#081a36);border:2px solid #e9b84b;border-radius:20px;color:white;text-align:center">
+
+<h2 style="color:#ffd46d">👑 ADMIN RAFA</h2>
+<p>PANEL KENDALI DEVELOPER</p>
+
+<div id="daftarDevAdmin" style="padding:15px;background:#ffffff12;border:1px solid #e9b84b;border-radius:12px">
+Belum ada data pendaftaran.
+</div>
+
+<button onclick="lihatPendaftaran()" style="width:100%;padding:14px;margin-top:15px;background:#dca83c;border:0;border-radius:10px;font-weight:bold">
+🔄 PERIKSA PENDAFTARAN
+</button>
+
+<button onclick="document.getElementById('adminRafa').style.display='none';document.getElementById('developerCenter').style.display='block'" style="width:100%;padding:14px;margin-top:12px;background:#173b70;border:1px solid #e9b84b;border-radius:10px;color:white">
+↩ KEMBALI
+</button>
+
+</section>
+ 
 <script>
 const $=id=>document.getElementById(id);
 let players=[],chain=[],turn=0,started=false,passes=0,selected=null,locked=false;
@@ -917,6 +936,45 @@ function daftarDeveloper(){
  localStorage.setItem("pendaftaranDeveloper",JSON.stringify(data));
 
  alert("Pendaftaran berhasil disimpan. Menunggu persetujuan Admin Rafa.");
+  }
+
+  
+function lihatPendaftaran(){
+ const data=JSON.parse(
+  localStorage.getItem("pendaftaranDeveloper")||"null"
+ );
+
+ const area=document.getElementById("daftarDevAdmin");
+
+ if(!data){
+  area.textContent="Belum ada pendaftaran developer.";
+  return;
+ }
+
+ area.innerHTML=`
+  <h3>${data.nama}</h3>
+  <p>${data.email}</p>
+  <p>Game: ${data.game}</p>
+  <p>Status: ${data.status}</p>
+  <button onclick="prosesDeveloper('Disetujui')">SETUJUI</button>
+  <button onclick="prosesDeveloper('Ditolak')">TOLAK</button>
+ `;
+}
+
+function prosesDeveloper(status){
+ const data=JSON.parse(
+  localStorage.getItem("pendaftaranDeveloper")||"null"
+ );
+
+ if(!data)return;
+
+ data.status=status;
+ localStorage.setItem(
+  "pendaftaranDeveloper",JSON.stringify(data)
+ );
+
+ lihatPendaftaran();
+ alert("Status developer: "+status);
   }
   
   </script>
