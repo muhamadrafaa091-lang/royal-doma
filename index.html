@@ -375,7 +375,36 @@ header{
   transform:translate(-50%,-50%) !important;
   box-shadow:0 8px 18px #0008;
 }
- 
+/* RAFA CHESS BOARD */
+.chessboard {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 1 / 1;
+  margin: 15px auto;
+  border: 6px solid #c9a44c;
+  border-radius: 4px;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: #17243b;
+}
+
+.chess-square {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chess-square.light {
+  background: #f0d9b5;
+}
+
+.chess-square.dark {
+  background: #795438;
+ } 
 </style>
 </style></head>
 <body>
@@ -1068,8 +1097,12 @@ function renderRafaChess(){
 
       html += `
       <button onclick="klikKotakChess('${kotak}')"
-        style="width:100%;min-width:0;aspect-ratio:1/1;box-sizing:border-box;border:0;border-radius:0!important;background:
-        background:${aktif?"#e9b84b":warna};
+        style="width:100%;min-width:0;
+aspect-ratio:1/1;
+box-sizing:border-box;
+border:0;
+border-radius:0!important;
+background:${aktif?"#e9b84b":warna};
         font-size:clamp(25px,7vw,43px);
         padding:0;display:flex;
         align-items:center;justify-content:center;
