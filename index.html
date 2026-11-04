@@ -419,6 +419,11 @@ style="width:260px;max-width:90%;height:auto;display:block;margin:15px auto">
 
 </button>
 
+<button onclick="bukaRafaChess()" style="width:100%;padding:23px 12px;margin-top:15px;background:linear-gradient(135deg,#173b70,#081a36);border:2px solid #e9b84b;border-radius:17px;font-weight:bold;font-size:20px;color:#ffd46d;box-shadow:0 0 18px #173b7066">
+♟️ RAFA CHESS
+<br><small style="font-size:11px">PLAY VS COMPUTER • AI BOT</small>
+</button>
+ 
 <button onclick="bukaDeveloperCenter()" style="width:100%;padding:23px 12px;margin-top:15px;background:linear-gradient(135deg,#173b70,#081a36);border:2px solid #e9b84b;border-radius:17px;font-weight:bold;font-size:19px;color:#ffd46d;box-shadow:0 0 18px #173b7066">
 👨‍💻 DEVELOPER CENTER
 <br><small style="font-size:11px">PUSAT PENGEMBANGAN GAME</small>
@@ -861,6 +866,36 @@ $('start').onclick=startGame;
 $('pass').onclick=()=>{if(!started||turn!==0||players[0].hand.some(legal))return;passes++;$('status').textContent='Bro melewati giliran.';if(passes>=4){finishBlocked();return}turn=1;render();setTimeout(botTurn,700)};
 render();
 </script>
+ 
+<section id="rafaChess" style="display:none;max-width:100%;min-height:85vh;margin:0 auto;padding:20px 15px;background:radial-gradient(circle at top,#173b70,#081a36 70%,#050d1b);border:2px solid #e9b84b;border-radius:20px;color:white;text-align:center">
+
+<h2 style="color:#ffd46d;letter-spacing:3px">♟️ RAFA CHESS</h2>
+
+<p style="color:#d7e5ff">PLAYER VS AI BOT</p>
+
+<div style="padding:12px;background:#ffffff12;border:1px solid #e9b84b;border-radius:12px">
+  <b style="color:#ffd46d">🤖 RAFA BOT</b>
+  <p>Komputer</p>
+</div>
+
+<div id="papanRafaChess" style="margin:20px auto;max-width:420px">
+  <!-- PAPAN CATUR AKAN DIBUAT DI SINI -->
+</div>
+
+<div style="margin:15px 0">
+  <button onclick="pilihLevelChess('mudah')">MUDAH</button>
+  <button onclick="pilihLevelChess('sedang')">SEDANG</button>
+  <button onclick="pilihLevelChess('sulit')">SULIT</button>
+</div>
+
+<p id="statusRafaChess">Pilih tingkat kesulitan BOT</p>
+
+<button onclick="mulaiRafaChess()">♟️ MULAI BERMAIN</button>
+
+<button onclick="kembaliLobbyChess()" style="margin-top:10px">KEMBALI KE LOBBY</button>
+
+</section>
+ 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
 import { getDatabase } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
@@ -918,7 +953,35 @@ alert("UID yang terbaca: " + hasil.user.uid);
   }
 });
 console.log("RAFA GAMBLER terhubung ke Firebase");
-   </script>
+
+let levelRafaChess = "mudah";
+
+window.bukaRafaChess = function(){
+  document.getElementById("lobbyRafa").style.display = "none";
+  document.getElementById("rafaChess").style.display = "block";
+};
+
+window.kembaliLobbyChess = function(){
+  document.getElementById("rafaChess").style.display = "none";
+  document.getElementById("lobbyRafa").style.display = "block";
+};
+
+window.pilihLevelChess = function(level){
+  levelRafaChess = level;
+
+  document.getElementById("statusRafaChess").textContent =
+    "Level BOT dipilih: " + level.toUpperCase();
+};
+
+window.mulaiRafaChess = function(){
+  document.getElementById("statusRafaChess").textContent =
+    "RAFA CHESS siap disiapkan. Menunggu mesin catur.";
+};
+
+console.log("RAFA CHESS menu berhasil disambungkan");
+ 
+</script>
+ 
  <script>
 function masukRafa(){
  const nama=document.getElementById("namaPemain").value.trim();
