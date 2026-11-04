@@ -898,7 +898,10 @@ render();
  
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
-import { getDatabase } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
+
+import { Chess } from "https://cdn.jsdelivr.net/npm/chess.js@1.4.0/+esm";
+ 
+ import { getDatabase } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -954,33 +957,220 @@ alert("UID yang terbaca: " + hasil.user.uid);
 });
 console.log("RAFA GAMBLER terhubung ke Firebase");
 
+
 let levelRafaChess = "mudah";
+let gameRafaChess = new Chess();
+let selectedChess = null;
+let botThinking = false;
 
-window.bukaRafaChess = function(){
-  document.getElementById("lobbyRafa").style.display = "none";
-  document.getElementById("rafaChess").style.display = "block";
+const chessPieces = {
+  wk:"♔", wq:"♕", wr:"♖", wb:"♗", wn:"♘", wp:"♙",
+  bk:"♚", bq:"♛", br:"♜", bb:"♝", bn:"♞", bp:"♟"
 };
 
-window.kembaliLobbyChess = function(){
-  document.getElementById("rafaChess").style.display = "none";
-  document.getElementById("lobbyRafa").style.display = "block";
+function nilaiChess(){
+  const nilai = {p:100,n:320,b:330,r:500,q:900,k:0};
+  let total = 0;
+
+  gameRafaChess.board().forEach(row=>{
+    row.forEach(p=>{
+      if(p){
+        total += nilai[p.type] * (p.color==="w"?1:-1);
+      }
+    });
+  });
+
+  return total;
+}
+
+function minimaxChess(depth,alpha,beta){
+  if(gameRafaChess.isGameOver() || depth===0){
+    return nilaiChess();
+  }
+
+  const moves = gameRafaChess.moves();
+  const putih = gameRafaChess.turn()==="w";
+
+  if(putih){
+    let best = -Infinity;
+
+    for(const move of moves){
+      gameRafaChess.move(move);
+      best = Math.max(best,minimaxChess(depth-1,alpha,beta));
+      gameRafaChess.undo();
+
+      alpha = Math.max(alpha,best);
+      if(beta<=alpha) break;
+    }
+    return best;
+  }else{
+    let best = Infinity;
+
+    for(const move of moves){
+      gameRafaChess.move(move);
+      best = Math.min(best,minimaxChess(depth-1,alpha,beta));
+      gameRafaChess.undo();
+
+      beta = Math.min(beta,best);
+      if(beta<=alpha) break;
+    }
+    return best;
+  }
+}
+
+function botRafaChess(){
+  if(gameRafaChess.isGameOver()) return;
+
+  botThinking = true;
+
+  const kedalaman = {
+    mudah:1,
+    sedang:2,
+    sulit:3
+  }[levelRafaChess];
+
+  let pilihan = [];
+  let terbaik = Infinity;
+
+  for(const move of gameRafaChess.moves()){
+    gameRafaChess.move(move);
+    const skor = minimaxChess(kedalaman-1,-Infinity,Infinity);
+    gameRafaChess.undo();
+
+    if(skor < terbaik){
+      terbaik = skor;
+      pilihan = [move];
+    }else if(skor === terbaik){
+      pilihan.push(move);
+    }
+  }
+
+  if(pilihan.length){
+    const langkah = pilihan[Math.floor(Math.random()*pilihan.length)];
+    gameRafaChess.move(langkah);
+  }
+
+  botThinking = false;
+  renderRafaChess();
+}
+
+function renderRafaChess(){
+  const papan = document.getElementById("papanRafaChess");
+  if(!papan) return;
+
+  let html = "";
+
+  gameRafaChess.board().forEach((row,r)=>{
+    row.forEach((piece,c)=>{
+      const kotak = "abcdefgh"[c]+(8-r);
+      const warna = (r+c)%2===0 ? "#e9d5b5":"#805638";
+      const aktif = selectedChess===kotak;
+
+      html += `
+      <button onclick="klikKotakChess('${kotak}')"
+        style="aspect-ratio:1;border:0;
+        background:${aktif?"#e9b84b":warna};
+        font-size:clamp(25px,7vw,43px);
+        padding:0;display:flex;
+        align-items:center;justify-content:center;
+        color:${piece?.color==="w"?"#fff":"#111"};
+        text-shadow:0 1px 3px #555;">
+        ${piece?chessPieces[piece.color+piece.type]:""}
+      </button>`;
+    });
+  });
+
+  papan.style.display="grid";
+  papan.style.gridTemplateColumns="repeat(8,1fr)";
+  papan.style.width="100%";
+  papan.innerHTML=html;
+
+  const status=document.getElementById("statusRafaChess");
+
+  if(gameRafaChess.isCheckmate()){
+    status.textContent=gameRafaChess.turn()==="w"
+      ?"SKAKMAT! RAFA BOT MENANG!"
+      :"SKAKMAT! PEMAIN MENANG!";
+  }else if(gameRafaChess.isDraw()){
+    status.textContent="PERMAINAN SERI!";
+  }else{
+    status.textContent=gameRafaChess.turn()==="w"
+      ?"GILIRAN PEMAIN PUTIH"
+      :"RAFA BOT SEDANG BERPIKIR...";
+    
+    if(gameRafaChess.isCheck()){
+      status.textContent+=" • SKAK!";
+    }
+  }
+}
+
+window.klikKotakChess=function(kotak){
+  if(gameRafaChess.isGameOver() ||
+     gameRafaChess.turn()!=="w" ||
+     botThinking) return;
+
+  const piece=gameRafaChess.get(kotak);
+
+  if(selectedChess){
+    try{
+      const hasil=gameRafaChess.move({
+        from:selectedChess,
+        to:kotak,
+        promotion:"q"
+      });
+
+      if(hasil){
+        selectedChess=null;
+        renderRafaChess();
+
+        if(!gameRafaChess.isGameOver()){
+          botThinking=true;
+          setTimeout(()=>{
+            botThinking=false;
+            botRafaChess();
+          },400);
+        }
+        return;
+      }
+    }catch(error){}
+  }
+
+  if(piece && piece.color==="w"){
+    selectedChess=kotak;
+  }else{
+    selectedChess=null;
+  }
+
+  renderRafaChess();
 };
 
-window.pilihLevelChess = function(level){
-  levelRafaChess = level;
-
-  document.getElementById("statusRafaChess").textContent =
-    "Level BOT dipilih: " + level.toUpperCase();
+window.bukaRafaChess=function(){
+  document.getElementById("lobbyRafa").style.display="none";
+  document.getElementById("rafaChess").style.display="block";
+  renderRafaChess();
 };
 
-window.mulaiRafaChess = function(){
-  document.getElementById("statusRafaChess").textContent =
-    "RAFA CHESS siap disiapkan. Menunggu mesin catur.";
+window.kembaliLobbyChess=function(){
+  document.getElementById("rafaChess").style.display="none";
+  document.getElementById("lobbyRafa").style.display="none";
+  document.getElementById("lobbyRafa").style.display="block";
 };
 
-console.log("RAFA CHESS menu berhasil disambungkan");
- 
-</script>
+window.pilihLevelChess=function(level){
+  levelRafaChess=level;
+  document.getElementById("statusRafaChess").textContent=
+    "LEVEL BOT: "+level.toUpperCase();
+};
+
+window.mulaiRafaChess=function(){
+  gameRafaChess=new Chess();
+  selectedChess=null;
+  botThinking=false;
+  renderRafaChess();
+};
+
+console.log("RAFA CHESS ENGINE AKTIF");
+
  
  <script>
 function masukRafa(){
