@@ -746,10 +746,11 @@ font-weight:bold;
 ">
 🔄 PERIKSA HADIAH KOIN
  </button>
+ <div id="kontrolAdmin" style="display:none">
  <button onclick="lihatPendaftaran()" style="width:100%;padding:14px;margin-top:15px;background:#dca83c;border:0;border-radius:10px;font-weight:bold">
 🔄 PERIKSA PENDAFTARAN
 </button>
-
+ </div>
 <button onclick="document.getElementById('adminRafa').style.display='none';document.getElementById('developerCenter').style.display='block'" style="width:100%;padding:14px;margin-top:12px;background:#173b70;border:1px solid #e9b84b;border-radius:10px;color:white">
 ↩ KEMBALI
 </button>
@@ -1208,7 +1209,8 @@ alert("UID yang terbaca: " + hasil.user.uid);
 
     document.getElementById("loginAdminBox").style.display = "none";
     document.getElementById("daftarDevAdmin").style.display = "block";
-lihatPendaftaran();
+document.getElementById("kontrolAdmin").style.display = "block";
+   lihatPendaftaran();
 lihatHadiahRafa();
 
 alert("Selamat datang, Admin Rafa!");
@@ -1652,7 +1654,8 @@ function prosesDeveloper(status){
 
  document.getElementById("loginAdminBox").style.display="block";
  document.getElementById("daftarDevAdmin").style.display="none";
-  }
+  document.getElementById("kontrolAdmin").style.display = "none";
+ }
   // =================================
 // SISTEM PERMINTAAN HADIAH KOIN
 // =================================
