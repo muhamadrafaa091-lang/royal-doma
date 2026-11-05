@@ -1062,8 +1062,20 @@ function botTurn(){if(!started||turn===0||locked)return;let p=players[turn],idx=
  if(idx<0){passes++;$('status').textContent=`Pemain ${turn+1} melewati giliran.`;if(passes>=4){finishBlocked();return}turn=(turn+1)%4;render();if(turn!==0)setTimeout(botTurn,650);return}
  let t=p.hand[idx],side='right';if(chain.length&&t.a!==chain[chain.length-1].b&&t.b!==chain[chain.length-1].b)side='left';
  putTile(t,side);p.hand.splice(idx,1);afterPlay(turn)}
-function finish(who){started=false;locked=true;let msg=who===0?'BRO MENANG! 🎉':`Pemain ${who+1} menang!`; $('status').textContent=msg+' Tekan Mulai / Ulang untuk bermain lagi.';render()}
-function finishBlocked(){started=false;locked=true;let scores=players.map(p=>p.hand.reduce((s,t)=>s+pip(t),0)),min=Math.min(...scores),w=scores.indexOf(min);$('status').textContent=`Permainan terkunci. ${w===0?'Bro':`Pemain ${w+1}`} menang dengan jumlah titik tersisa paling kecil (${min}).`;render()}
+function finish(who){
+ started=false;
+ locked=true;
+
+ let msg=who===0?'BRO MENANG! 🎉':`Pemain ${who+1} menang!`;
+
+ if(who===0){
+   kirimPermintaanHadiah();
+ }
+
+ $('status').textContent=msg+' Tekan Mulai / Ulang untuk bermain lagi.';
+ render()
+ }
+ function finishBlocked(){started=false;locked=true;let scores=players.map(p=>p.hand.reduce((s,t)=>s+pip(t),0)),min=Math.min(...scores),w=scores.indexOf(min);$('status').textContent=`Permainan terkunci. ${w===0?'Bro':`Pemain ${w+1}`} menang dengan jumlah titik tersisa paling kecil (${min}).`;render()}
 $('start').onclick=startGame;
 $('pass').onclick=()=>{if(!started||turn!==0||players[0].hand.some(legal))return;passes++;$('status').textContent='Bro melewati giliran.';if(passes>=4){finishBlocked();return}turn=1;render();setTimeout(botTurn,700)};
 render();
@@ -1645,8 +1657,8 @@ function prosesDeveloper(status){
 // SISTEM PERMINTAAN HADIAH KOIN
 // =================================
 
-const hadiahRafaRef = ref(db, "permintaanHadiah");
-window.kirimPermintaanHadiah = async function(){
+const hadiahRafaRef = ref(playerDb, "permintaanHadiah");
+  window.kirimPermintaanHadiah = async function(){
   const user = playerAuth.currentUser;
 
   if(!user){
