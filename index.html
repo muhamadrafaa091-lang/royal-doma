@@ -1429,9 +1429,11 @@ onAuthStateChanged(playerAuth, async (user) => {
   }
 
   if (!user) {
-    return;
-  }
+  console.log("PEMAIN BELUM LOGIN");
+  return;
+}
 
+console.log("PEMAIN LOGIN:", user.uid);
   const dompetRef = ref(
     playerDb,
     "pemain/" + user.uid
