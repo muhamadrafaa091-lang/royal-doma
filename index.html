@@ -537,7 +537,23 @@ alt="Logo Rafa Gambler"
 style="width:260px;max-width:90%;height:auto;display:block;margin:15px auto">
 
 <h2 style="color:#ffd46d;letter-spacing:3px">LOBBY UTAMA</h2>
-<p style="color:#e5d2ff;font-size:12px">SELAMAT DATANG DI RAFA GAMBLER</p>
+<div style="
+  margin:15px auto;
+  padding:12px;
+  max-width:250px;
+  background:linear-gradient(135deg,#172b55,#09152d);
+  border:1px solid #ffd46d;
+  border-radius:12px;
+  color:#ffd46d;
+  text-align:center;
+  font-weight:bold;
+">
+  🪙 SALDO KOIN RAFA
+  <div style="font-size:25px;margin-top:5px">
+    <span id="saldoKoinRafa">0</span>
+  </div>
+</div>
+  <p style="color:#e5d2ff;font-size:12px">SELAMAT DATANG DI RAFA GAMBLER</p>
 
 <div style="padding:18px;margin:25px 0;background:#ffffff12;border:1px solid #d6a33e;border-radius:15px;box-shadow:0 0 15px #bd7cff33">
 👤 <b id="namaLobby" style="color:#ffd46d;font-size:18px">PEMAIN</b>
@@ -1078,10 +1094,13 @@ import { Chess } from "https://cdn.jsdelivr.net/npm/chess.js@1.4.0/+esm";
 import {
   getDatabase,
   ref,
-  set
+  set,
+  get,
+  onValue,
+  runTransaction
 } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
- 
-import {
+
+ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -1396,6 +1415,89 @@ window.mulaiRafaChess=function(){
 };
 
 console.log("RAFA CHESS ENGINE AKTIF");
+// =================================
+// RAFA GAMING - SISTEM DOMPET KOIN
+// =================================
+
+let berhentiPantauKoinRafa = null;
+
+onAuthStateChanged(playerAuth, async (user) => {
+
+  if (berhentiPantauKoinRafa) {
+    berhentiPantauKoinRafa();
+    berhentiPantauKoinRafa = null;
+  }
+
+  if (!user) {
+    return;
+  }
+
+  const dompetRef = ref(
+    playerDb,
+    "pemain/" + user.uid
+  );
+
+  try {
+
+    const snapshot = await get(dompetRef);
+
+    // BUAT DOMPET PEMAIN BARU
+    if (!snapshot.exists()) {
+
+      let nama =
+        localStorage.getItem("namaRafa") ||
+        user.displayName ||
+        "Pemain Rafa";
+
+      nama = nama.trim().slice(0, 30);
+
+      if (nama.length < 2) {
+        nama = "Pemain Rafa";
+      }
+
+      await set(dompetRef, {
+        nama: nama,
+        email: user.email || "",
+        saldoKoin: 10000,
+        dibuatPada: Date.now()
+      });
+    }
+
+    // PANTAU SALDO REALTIME
+    berhentiPantauKoinRafa = onValue(
+      dompetRef,
+      (data) => {
+
+        if (!data.exists()) return;
+
+        const saldo = data.val().saldoKoin;
+
+        const tampilan =
+          document.getElementById("saldoKoinRafa");
+
+        if (tampilan) {
+          tampilan.textContent =
+            Number(saldo).toLocaleString("id-ID");
+        }
+
+      },
+      (error) => {
+        console.error("Koin Rafa:", error);
+      }
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Gagal membuka dompet Rafa:",
+      error
+    );
+
+    alert("Dompet koin gagal dimuat. Periksa koneksi Firebase.");
+
+  }
+
+});
 </script>
  
  <script>
