@@ -1654,12 +1654,17 @@ function prosesDeveloper(status){
  document.getElementById("daftarDevAdmin").style.display="none";
   document.getElementById("kontrolAdmin").style.display = "none";
  }
-  // =================================
+
+// =================================
 // SISTEM PERMINTAAN HADIAH KOIN
 // =================================
 
+// KONEKSI PEMAIN
 const hadiahRafaRef = ref(playerDb, "permintaanHadiah");
-  window.kirimPermintaanHadiah = async function(){
+
+// PEMAIN MENGIRIM PERMINTAAN HADIAH
+window.kirimPermintaanHadiah = async function(){
+
   const user = playerAuth.currentUser;
 
   if(!user){
@@ -1678,11 +1683,16 @@ const hadiahRafaRef = ref(playerDb, "permintaanHadiah");
     });
 
     alert("Permintaan hadiah berhasil dikirim!");
+
   } catch(error) {
     alert("Gagal mengirim permintaan: " + error.message);
   }
 };
-  window.lihatHadiahRafa = function(){
+
+
+// ADMIN MEMERIKSA PERMINTAAN HADIAH
+window.lihatHadiahRafa = function(){
+
   const user = auth.currentUser;
 
   if(!user || user.uid !== "Tb007twouPfwNqKGG4ps9NJZogM2"){
@@ -1692,7 +1702,11 @@ const hadiahRafaRef = ref(playerDb, "permintaanHadiah");
 
   const area = document.getElementById("daftarHadiahAdmin");
 
-  onValue(hadiahRafaRef, (snapshot) => {
+  // KONEKSI DATABASE ADMIN
+  const hadiahAdminRef = ref(db, "permintaanHadiah");
+
+  onValue(hadiahAdminRef, (snapshot) => {
+
     area.innerHTML = "";
 
     if(!snapshot.exists()){
@@ -1701,9 +1715,11 @@ const hadiahRafaRef = ref(playerDb, "permintaanHadiah");
     }
 
     snapshot.forEach((item) => {
+
       const data = item.val();
 
       const baris = document.createElement("div");
+
       baris.style.padding = "12px";
       baris.style.margin = "10px 0";
       baris.style.background = "#ffffff15";
@@ -1716,9 +1732,14 @@ const hadiahRafaRef = ref(playerDb, "permintaanHadiah");
       `;
 
       area.appendChild(baris);
+
     });
+
+  }, (error) => {
+    alert("Gagal membaca hadiah: " + error.message);
   });
 };
+  
  </script>
 </body>
 </html>
