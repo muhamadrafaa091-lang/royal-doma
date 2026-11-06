@@ -614,8 +614,8 @@ Ajukan permintaan penukaran hadiah kepada Admin Rafa.
 </p>
 
 <button type="button"
-onclick="kirimPermintaanHadiah()"
- style="
+<button onclick="window.kirimPermintaanHadiah()"
+style="
 width:100%;
 padding:14px;
 margin-top:10px;
@@ -626,7 +626,7 @@ color:#172b49;
 font-weight:bold;
 font-size:14px;
 ">
-🎁 AJUKAN PENUKARAN
+🎁 AJUKAN PENUKARAN HADIAH
 </button>
 
 </div>
@@ -1740,7 +1740,7 @@ window.kirimPermintaanHadiah = async function(){
   }
 };
 
-
+console.log("FUNGSI HADIAH RAFA SIAP");
 // ADMIN MEMERIKSA PERMINTAAN HADIAH
 window.lihatHadiahRafa = function(){
 
