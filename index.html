@@ -1710,7 +1710,15 @@ function prosesDeveloper(status){
 
 // KONEKSI PEMAIN
 const hadiahRafaRef = ref(playerDb, "permintaanHadiah");
+window.kirimPermintaanHadiah = async function(){
 
+  alert("Fungsi penukaran berhasil dipanggil!");
+
+  const user = playerAuth.currentUser;
+
+  alert("Status pemain: " + (user ? user.uid : "BELUM LOGIN"));
+
+  // KODE LAMA LANJUT DI BAWAH
 // PEMAIN MENGIRIM PERMINTAAN HADIAH
 window.kirimPermintaanHadiah = async function(){
 
