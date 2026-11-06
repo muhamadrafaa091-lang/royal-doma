@@ -1578,6 +1578,92 @@ console.log("PEMAIN LOGIN:", user.uid);
   }
 
 });
+ // =================================
+// SISTEM PERMINTAAN HADIAH KOIN
+// =================================
+
+// KONEKSI PEMAIN
+const hadiahRafaRef = ref(playerDb, "permintaanHadiah");
+
+  // KODE LAMA LANJUT DI BAWAH
+// PEMAIN MENGIRIM PERMINTAAN HADIAH
+window.kirimPermintaanHadiah = async function(){
+
+  const user = playerAuth.currentUser;
+
+  if(!user){
+    alert("Silakan login pemain terlebih dahulu!");
+    return;
+  }
+
+  const permintaanRef = push(hadiahRafaRef);
+
+  try {
+    await set(permintaanRef, {
+      uid: user.uid,
+      status: "Menunggu",
+      jumlahKoin: 100,
+      dibuatPada: Date.now()
+    });
+
+    alert("Permintaan hadiah berhasil dikirim!");
+
+  } catch(error) {
+    alert("Gagal mengirim permintaan: " + error.message);
+  }
+};
+
+console.log("FUNGSI HADIAH RAFA SIAP");
+console.log("FUNGSI TERDAFTAR:", typeof window.kirimPermintaanHadiah);
+  // ADMIN MEMERIKSA PERMINTAAN HADIAH
+window.lihatHadiahRafa = function(){
+
+  const user = auth.currentUser;
+
+  if(!user || user.uid !== "Tb007twouPfwNqKGG4ps9NJZogM2"){
+    alert("Akses khusus Admin Rafa!");
+    return;
+  }
+
+  const area = document.getElementById("daftarHadiahAdmin");
+
+  // KONEKSI DATABASE ADMIN
+  const hadiahAdminRef = ref(db, "permintaanHadiah");
+
+  onValue(hadiahAdminRef, (snapshot) => {
+
+    area.innerHTML = "";
+
+    if(!snapshot.exists()){
+      area.textContent = "Belum ada permintaan hadiah.";
+      return;
+    }
+
+    snapshot.forEach((item) => {
+
+      const data = item.val();
+
+      const baris = document.createElement("div");
+
+      baris.style.padding = "12px";
+      baris.style.margin = "10px 0";
+      baris.style.background = "#ffffff15";
+      baris.style.borderRadius = "10px";
+
+      baris.innerHTML = `
+        <p>UID: ${data.uid}</p>
+        <p>Hadiah: ${data.jumlahKoin} koin</p>
+        <p>Status: ${data.status}</p>
+      `;
+
+      area.appendChild(baris);
+
+    });
+
+  }, (error) => {
+    alert("Gagal membaca hadiah: " + error.message);
+  });
+};
 </script>
  
  <script>
@@ -1705,94 +1791,6 @@ function prosesDeveloper(status){
  document.getElementById("daftarDevAdmin").style.display="none";
   document.getElementById("kontrolAdmin").style.display = "none";
  }
-
-// =================================
-// SISTEM PERMINTAAN HADIAH KOIN
-// =================================
-
-// KONEKSI PEMAIN
-const hadiahRafaRef = ref(playerDb, "permintaanHadiah");
-alert("SAMPAI KE BAGIAN HADIAH");
-
-  // KODE LAMA LANJUT DI BAWAH
-// PEMAIN MENGIRIM PERMINTAAN HADIAH
-window.kirimPermintaanHadiah = async function(){
-
-  const user = playerAuth.currentUser;
-
-  if(!user){
-    alert("Silakan login pemain terlebih dahulu!");
-    return;
-  }
-
-  const permintaanRef = push(hadiahRafaRef);
-
-  try {
-    await set(permintaanRef, {
-      uid: user.uid,
-      status: "Menunggu",
-      jumlahKoin: 100,
-      dibuatPada: Date.now()
-    });
-
-    alert("Permintaan hadiah berhasil dikirim!");
-
-  } catch(error) {
-    alert("Gagal mengirim permintaan: " + error.message);
-  }
-};
-
-console.log("FUNGSI HADIAH RAFA SIAP");
-console.log("FUNGSI TERDAFTAR:", typeof window.kirimPermintaanHadiah);
-  // ADMIN MEMERIKSA PERMINTAAN HADIAH
-window.lihatHadiahRafa = function(){
-
-  const user = auth.currentUser;
-
-  if(!user || user.uid !== "Tb007twouPfwNqKGG4ps9NJZogM2"){
-    alert("Akses khusus Admin Rafa!");
-    return;
-  }
-
-  const area = document.getElementById("daftarHadiahAdmin");
-
-  // KONEKSI DATABASE ADMIN
-  const hadiahAdminRef = ref(db, "permintaanHadiah");
-
-  onValue(hadiahAdminRef, (snapshot) => {
-
-    area.innerHTML = "";
-
-    if(!snapshot.exists()){
-      area.textContent = "Belum ada permintaan hadiah.";
-      return;
-    }
-
-    snapshot.forEach((item) => {
-
-      const data = item.val();
-
-      const baris = document.createElement("div");
-
-      baris.style.padding = "12px";
-      baris.style.margin = "10px 0";
-      baris.style.background = "#ffffff15";
-      baris.style.borderRadius = "10px";
-
-      baris.innerHTML = `
-        <p>UID: ${data.uid}</p>
-        <p>Hadiah: ${data.jumlahKoin} koin</p>
-        <p>Status: ${data.status}</p>
-      `;
-
-      area.appendChild(baris);
-
-    });
-
-  }, (error) => {
-    alert("Gagal membaca hadiah: " + error.message);
-  });
-};
   
  </script>
 </body>
