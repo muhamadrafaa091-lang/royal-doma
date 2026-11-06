@@ -693,14 +693,13 @@ KIRIM PENDAFTARAN
 
 </section>
  
+
 <section id="adminRafa" style="display:none;padding:22px;background:radial-gradient(circle at top,#173b70,#081a36);border:2px solid #e9b84b;border-radius:20px;color:white;text-align:center">
 
 <h2 style="color:#ffd46d">👑 ADMIN RAFA</h2>
 <p>PANEL KENDALI DEVELOPER</p>
 
-<div id="daftarDevAdmin" style="padding:15px;background:#ffffff12;border:1px solid #e9b84b;border-radius:12px">
-Belum ada data pendaftaran.
-</div>
+<!-- LOGIN ADMIN -->
 <div id="loginAdminBox" style="padding:18px;margin:20px 0;background:#ffffff12;border:1px solid #e9b84b;border-radius:15px">
 
 <h3 style="color:#ffd46d">🔐 LOGIN ADMIN RAFA</h3>
@@ -718,44 +717,43 @@ MASUK ADMIN
 </button>
 
 </div>
- <div id="daftarHadiahAdmin"
- style="
-padding:15px;
-margin:12px 0;
-background:#ffffff12;
-border:1px solid #e9b84b;
-border-radius:12px;
-color:white;
-">
-Belum ada permintaan hadiah.
+
+<!-- KONTROL ADMIN SETELAH LOGIN -->
+<div id="kontrolAdmin" style="display:none">
+
+<div id="daftarDevAdmin" style="padding:15px;background:#ffffff12;border:1px solid #e9b84b;border-radius:12px">
+Belum ada data pendaftaran.
 </div>
- <button
-onclick="lihatHadiahRafa()"
-style="
-width:100%;
-padding:14px;
-margin-top:10px;
-background:#dca83c;
-border:0;
-border-radius:10px;
-font-weight:bold;
-">
-🔄 PERIKSA HADIAH KOIN
- </button></div>
+
 <h3 style="color:#ffd46d;margin-top:20px">
-  🪙 PERSETUJUAN HADIAH KOIN
+🪙 PERSETUJUAN HADIAH KOIN
 </h3>
 
- <div id="kontrolAdmin" style="display:none">
- <button onclick="lihatPendaftaran()" style="width:100%;padding:14px;margin-top:15px;background:#dca83c;border:0;border-radius:10px;font-weight:bold">
+<div id="daftarHadiahAdmin"
+style="padding:15px;margin:12px 0;background:#ffffff12;border:1px solid #e9b84b;border-radius:12px;color:white">
+Belum ada permintaan hadiah.
+</div>
+
+<button onclick="lihatHadiahRafa()"
+style="width:100%;padding:14px;margin-top:10px;background:#dca83c;border:0;border-radius:10px;font-weight:bold">
+🔄 PERIKSA HADIAH KOIN
+</button>
+
+<button onclick="lihatPendaftaran()"
+style="width:100%;padding:14px;margin-top:15px;background:#dca83c;border:0;border-radius:10px;font-weight:bold">
 🔄 PERIKSA PENDAFTARAN
 </button>
- </div>
-<button onclick="document.getElementById('adminRafa').style.display='none';document.getElementById('developerCenter').style.display='block'" style="width:100%;padding:14px;margin-top:12px;background:#173b70;border:1px solid #e9b84b;border-radius:10px;color:white">
+
+</div>
+
+<!-- KEMBALI -->
+<button onclick="document.getElementById('adminRafa').style.display='none';document.getElementById('developerCenter').style.display='block'"
+style="width:100%;padding:14px;margin-top:12px;background:#173b70;border:1px solid #e9b84b;border-radius:10px;color:white">
 ↩ KEMBALI
 </button>
 
 </section>
+ 
  
 <script>
 const $=id=>document.getElementById(id);
