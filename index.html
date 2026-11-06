@@ -515,7 +515,24 @@ cursor:pointer;
 ">
  MASUK
 </button>
-
+<button
+type="button"
+onclick="bukaDaftarPemainRafa()"
+style="
+position:absolute;
+left:9%;
+top:80%;
+width:82%;
+height:7%;
+background:linear-gradient(135deg,#173b70,#081a36);
+border:1px solid #e9b84b;
+border-radius:12px;
+color:#ffd978;
+font-weight:bold;
+font-size:16px;
+">
+DAFTAR AKUN PEMAIN
+</button>
 </section>
  
  <section id="lobbyRafa" style="
@@ -1157,7 +1174,46 @@ render();
 <button onclick="kembaliLobbyChess()" style="margin-top:10px">KEMBALI KE LOBBY</button>
 
 </section>
- 
+<section id="daftarPemainRafa" style="
+display:none;
+position:fixed;
+inset:0;
+z-index:9999;
+padding:30px 20px;
+background:radial-gradient(circle at top,#173b70,#081a36);
+color:white;
+text-align:center;
+">
+
+<h2 style="color:#ffd978">👑 DAFTAR PEMAIN RAFA</h2>
+
+<input id="namaDaftarRafa"
+placeholder="Nama pemain"
+style="width:100%;padding:14px;margin:10px 0;box-sizing:border-box;">
+
+<input id="emailDaftarRafa"
+type="email"
+placeholder="Email aktif"
+style="width:100%;padding:14px;margin:10px 0;box-sizing:border-box;">
+
+<input id="passwordDaftarRafa"
+type="password"
+placeholder="Password minimal 6 karakter"
+style="width:100%;padding:14px;margin:10px 0;box-sizing:border-box;">
+
+<button type="button"
+onclick="daftarPemainRafa()"
+style="width:100%;padding:14px;background:#e9b84b;border:0;border-radius:10px;font-weight:bold;">
+BUAT AKUN
+</button>
+
+<button type="button"
+onclick="tutupDaftarPemainRafa()"
+style="width:100%;padding:12px;margin-top:12px;background:#173b70;color:white;border:1px solid #e9b84b;border-radius:10px;">
+KEMBALI
+</button>
+
+</section> 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
 
@@ -1665,6 +1721,15 @@ window.lihatHadiahRafa = function(){
 </script>
  
  <script>
+  function bukaDaftarPemainRafa(){
+  document.getElementById("loginRafa").style.display="none";
+  document.getElementById("daftarPemainRafa").style.display="block";
+}
+
+function tutupDaftarPemainRafa(){
+  document.getElementById("daftarPemainRafa").style.display="none";
+  document.getElementById("loginRafa").style.display="block";
+  }
 function masukRafa(){
  const nama=document.getElementById("namaPemain").value.trim();
  const pin=document.getElementById("pinPemain").value.trim();
