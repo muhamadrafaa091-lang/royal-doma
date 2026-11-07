@@ -1762,17 +1762,14 @@ snapshot.forEach((item) => {
 
     return;
   }
+const baris = document.createElement("div");
 
-  const baris = document.createElement("div");
+baris.style.padding = "12px";
+baris.style.margin = "10px 0";
+baris.style.background = "#ffffff15";
+baris.style.borderRadius = "10px";
 
-      const baris = document.createElement("div");
-
-      baris.style.padding = "12px";
-      baris.style.margin = "10px 0";
-      baris.style.background = "#ffffff15";
-      baris.style.borderRadius = "10px";
-
-      baris.innerHTML = `
+baris.innerHTML = `
   <p>UID: ${data.uid}</p>
   <p>Metode: ${data.metodeHadiah || "-"}</p>
   <p>Nomor Penerima: ${data.nomorPenerima || "-"}</p>
@@ -1809,7 +1806,8 @@ snapshot.forEach((item) => {
         style="padding:10px;margin:5px;background:#1877d2;color:white;border:0;border-radius:8px;font-weight:bold">
         ✅ SELESAI
       </button>
-        : (data.status === "Selesai" || data.status === "Ditolak") && !data.arsip
+    `
+    : (data.status === "Selesai" || data.status === "Ditolak") && !data.arsip
     ? `
       <button type="button"
         onclick="arsipkanHadiahRafa('${item.key}')"
@@ -1820,6 +1818,7 @@ snapshot.forEach((item) => {
     : ""
   }
 `;
+  
       area.appendChild(baris);
 
     });
