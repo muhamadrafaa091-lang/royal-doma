@@ -1237,7 +1237,7 @@ import { Chess } from "https://cdn.jsdelivr.net/npm/chess.js@1.4.0/+esm";
   onAuthStateChanged,
   signOut
 } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
- alert("MODULE FIREBASE BERJALAN");
+ 
  const firebaseConfig = {
   apiKey: "AIzaSyBTj0IaQsfTF-kakApP4OzkVhL_y3oKRw0",
   authDomain: "rafa-gambler-online.firebaseapp.com",
@@ -1256,7 +1256,7 @@ const auth = getAuth(app);
 const playerApp = initializeApp(firebaseConfig, "rafaPlayerAuth");
 const playerAuth = getAuth(playerApp);
 const playerDb = getDatabase(playerApp);
-alert("FIREBASE INIT OK"); 
+
 
 window.daftarPemainRafa = async function(){
   const nama = document.getElementById("namaDaftarRafa").value.trim();
