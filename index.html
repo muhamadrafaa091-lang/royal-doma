@@ -629,7 +629,21 @@ HADIAH 100 KOIN
 <p style="color:#d7e3f5;font-size:12px">
 Ajukan permintaan penukaran hadiah kepada Admin Rafa.
 </p>
+<h3 style="color:#ffd46d">
+  🎁 DOMPET HADIAH RAFA
+</h3>
 
+<select id="metodeHadiahRafa"
+style="width:100%;padding:12px;border-radius:9px;margin:8px 0">
+  <option value="DANA">DANA</option>
+  <option value="GoPay">GoPay</option>
+</select>
+
+<input
+  type="tel"
+  id="nomorHadiahRafa"
+  placeholder="Masukkan nomor HP penerima"
+  style="width:100%;padding:12px;border-radius:9px;margin:8px 0">
 <button type="button"
 onclick="window.kirimPermintaanHadiah()"
  style="
@@ -1650,11 +1664,21 @@ window.kirimPermintaanHadiah = async function(){
     return;
   }
 
+  const metode = document.getElementById("metodeHadiahRafa").value;
+  const nomor = document.getElementById("nomorHadiahRafa").value.trim();
+
+  if(!/^08[0-9]{8,11}$/.test(nomor)){
+    alert("Masukkan nomor HP yang benar!");
+    return;
+  }
+
   const permintaanRef = push(hadiahRafaRef);
 
   try {
     await set(permintaanRef, {
       uid: user.uid,
+      metodeHadiah: metode,
+      nomorPenerima: nomor,
       status: "Menunggu",
       jumlahKoin: 100,
       dibuatPada: Date.now()
@@ -1706,7 +1730,9 @@ window.lihatHadiahRafa = function(){
 
       baris.innerHTML = `
   <p>UID: ${data.uid}</p>
-  <p>Hadiah: ${data.jumlahKoin} koin</p>
+  <p>Metode: ${data.metodeHadiah || "-"}</p>
+  <p>Nomor Penerima: ${data.nomorPenerima || "-"}</p>
+  <p>Jumlah: ${data.jumlahKoin} koin</p>
   <p>Status: ${data.status}</p>
 
   ${
@@ -1715,30 +1741,14 @@ window.lihatHadiahRafa = function(){
       <button
         type="button"
         onclick="setujuiHadiahRafa('${item.key}')"
-        style="
-          padding:10px;
-          margin:5px;
-          background:#28a745;
-          color:white;
-          border:0;
-          border-radius:8px;
-          font-weight:bold;
-        ">
+        style="padding:10px;margin:5px;background:#28a745;color:white;border:0;border-radius:8px;font-weight:bold">
         ✅ SETUJUI
       </button>
 
       <button
         type="button"
         onclick="tolakHadiahRafa('${item.key}')"
-        style="
-          padding:10px;
-          margin:5px;
-          background:#dc3545;
-          color:white;
-          border:0;
-          border-radius:8px;
-          font-weight:bold;
-        ">
+        style="padding:10px;margin:5px;background:#dc3545;color:white;border:0;border-radius:8px;font-weight:bold">
         ❌ TOLAK
       </button>
     `
