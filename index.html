@@ -1738,18 +1738,32 @@ window.lihatHadiahRafa = function(){
   ${
     data.status === "Menunggu"
     ? `
-      <button
-        type="button"
+      <button type="button"
         onclick="setujuiHadiahRafa('${item.key}')"
-        style="padding:10px;margin:5px;background:#28a745;color:white;border:0;border-radius:8px;font-weight:bold">
+        style="padding:10px;margin:5px;background:#28a745;color:white;border:0;border-radius:8px">
         ✅ SETUJUI
       </button>
 
-      <button
-        type="button"
+      <button type="button"
         onclick="tolakHadiahRafa('${item.key}')"
-        style="padding:10px;margin:5px;background:#dc3545;color:white;border:0;border-radius:8px;font-weight:bold">
+        style="padding:10px;margin:5px;background:#dc3545;color:white;border:0;border-radius:8px">
         ❌ TOLAK
+      </button>
+    `
+    : data.status === "Disetujui"
+    ? `
+      <button type="button"
+        onclick="prosesHadiahRafa('${item.key}')"
+        style="padding:10px;margin:5px;background:#e9b84b;color:#172b49;border:0;border-radius:8px;font-weight:bold">
+        💸 PROSES HADIAH
+      </button>
+    `
+    : data.status === "Diproses"
+    ? `
+      <button type="button"
+        onclick="selesaikanHadiahRafa('${item.key}')"
+        style="padding:10px;margin:5px;background:#1877d2;color:white;border:0;border-radius:8px;font-weight:bold">
+        ✅ SELESAI
       </button>
     `
     : ""
@@ -1795,6 +1809,40 @@ window.tolakHadiahRafa = async function(id){
 
   } catch(error) {
     alert("Gagal: " + error.message);
+  }
+};
+ // ADMIN MEMPROSES HADIAH
+window.prosesHadiahRafa = async function(id){
+
+  if(!confirm("Mulai proses pengiriman hadiah?")) return;
+
+  try {
+    await update(ref(db, "permintaanHadiah/" + id), {
+      status: "Diproses"
+    });
+
+    alert("Hadiah masuk tahap pemrosesan!");
+
+  } catch(error) {
+    alert("Gagal memproses: " + error.message);
+  }
+};
+
+ // ADMIN MENYELESAIKAN HADIAH
+window.selesaikanHadiahRafa = async function(id){
+
+  if(!confirm("Apakah hadiah benar-benar sudah dikirim?")) return;
+
+  try {
+    await update(ref(db, "permintaanHadiah/" + id), {
+      status: "Selesai",
+      selesaiPada: Date.now()
+    });
+
+    alert("Hadiah berhasil ditandai selesai!");
+
+  } catch(error) {
+    alert("Gagal menyelesaikan hadiah: " + error.message);
   }
 };
 </script>
