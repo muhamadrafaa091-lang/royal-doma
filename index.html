@@ -1705,11 +1705,46 @@ window.lihatHadiahRafa = function(){
       baris.style.borderRadius = "10px";
 
       baris.innerHTML = `
-        <p>UID: ${data.uid}</p>
-        <p>Hadiah: ${data.jumlahKoin} koin</p>
-        <p>Status: ${data.status}</p>
-      `;
+  <p>UID: ${data.uid}</p>
+  <p>Hadiah: ${data.jumlahKoin} koin</p>
+  <p>Status: ${data.status}</p>
 
+  ${
+    data.status === "Menunggu"
+    ? `
+      <button
+        type="button"
+        onclick="setujuiHadiahRafa('${item.key}')"
+        style="
+          padding:10px;
+          margin:5px;
+          background:#28a745;
+          color:white;
+          border:0;
+          border-radius:8px;
+          font-weight:bold;
+        ">
+        ✅ SETUJUI
+      </button>
+
+      <button
+        type="button"
+        onclick="tolakHadiahRafa('${item.key}')"
+        style="
+          padding:10px;
+          margin:5px;
+          background:#dc3545;
+          color:white;
+          border:0;
+          border-radius:8px;
+          font-weight:bold;
+        ">
+        ❌ TOLAK
+      </button>
+    `
+    : ""
+  }
+`;
       area.appendChild(baris);
 
     });
@@ -1717,6 +1752,40 @@ window.lihatHadiahRafa = function(){
   }, (error) => {
     alert("Gagal membaca hadiah: " + error.message);
   });
+};
+ // ADMIN SETUJUI HADIAH
+window.setujuiHadiahRafa = async function(id){
+
+  if(!confirm("Setujui permintaan hadiah ini?")) return;
+
+  try {
+    await update(ref(db, "permintaanHadiah/" + id), {
+      status: "Disetujui"
+    });
+
+    alert("Permintaan hadiah berhasil disetujui!");
+
+  } catch(error) {
+    alert("Gagal: " + error.message);
+  }
+};
+
+
+// ADMIN TOLAK HADIAH
+window.tolakHadiahRafa = async function(id){
+
+  if(!confirm("Tolak permintaan hadiah ini?")) return;
+
+  try {
+    await update(ref(db, "permintaanHadiah/" + id), {
+      status: "Ditolak"
+    });
+
+    alert("Permintaan hadiah ditolak!");
+
+  } catch(error) {
+    alert("Gagal: " + error.message);
+  }
 };
 </script>
  
