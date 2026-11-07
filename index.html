@@ -813,7 +813,20 @@ Belum ada data pendaftaran.
 style="padding:15px;margin:12px 0;background:#ffffff12;border:1px solid #e9b84b;border-radius:12px;color:white">
 Belum ada permintaan hadiah.
 </div>
+<h3 style="color:#ffd46d;margin-top:20px">
+  📦 ARSIP RIWAYAT HADIAH
+</h3>
 
+<div id="arsipHadiahAdmin"
+style="
+padding:15px;
+margin:12px 0;
+background:#ffffff12;
+border:1px solid #e9b84b;
+border-radius:12px;
+color:white">
+Belum ada arsip hadiah.
+</div>
 <button onclick="lihatHadiahRafa()"
 style="width:100%;padding:14px;margin-top:10px;background:#dca83c;border:0;border-radius:10px;font-weight:bold">
 🔄 PERIKSA HADIAH KOIN
@@ -1710,16 +1723,47 @@ window.lihatHadiahRafa = function(){
 
   onValue(hadiahAdminRef, (snapshot) => {
 
-    area.innerHTML = "";
+    const arsipArea = document.getElementById("arsipHadiahAdmin");
 
-    if(!snapshot.exists()){
-      area.textContent = "Belum ada permintaan hadiah.";
-      return;
+area.innerHTML = "";
+if(arsipArea) arsipArea.innerHTML = "";
+
+if(!snapshot.exists()){
+  area.textContent = "Belum ada permintaan hadiah.";
+  if(arsipArea) arsipArea.textContent = "Belum ada arsip hadiah.";
+  return;
+}
+
+snapshot.forEach((item) => {
+
+  const data = item.val();
+
+  // TAMPILKAN DATA YANG SUDAH DIARSIPKAN
+  if(data.arsip === true){
+
+    if(arsipArea){
+      const kartuArsip = document.createElement("div");
+
+      kartuArsip.style.padding = "12px";
+      kartuArsip.style.margin = "10px 0";
+      kartuArsip.style.background = "#ffffff15";
+      kartuArsip.style.borderRadius = "10px";
+
+      kartuArsip.innerHTML = `
+        <p>UID: ${data.uid}</p>
+        <p>Metode: ${data.metodeHadiah || "-"}</p>
+        <p>Jumlah: ${data.jumlahKoin} koin</p>
+        <p>Status: ${data.status}</p>
+        <p>📦 Tersimpan di arsip</p>
+      `;
+
+      arsipArea.appendChild(kartuArsip);
     }
 
-    snapshot.forEach((item) => {
+    return;
+  }
 
-      const data = item.val();
+  const baris = document.createElement("div");
 
       const baris = document.createElement("div");
 
@@ -1764,6 +1808,13 @@ window.lihatHadiahRafa = function(){
         onclick="selesaikanHadiahRafa('${item.key}')"
         style="padding:10px;margin:5px;background:#1877d2;color:white;border:0;border-radius:8px;font-weight:bold">
         ✅ SELESAI
+      </button>
+        : (data.status === "Selesai" || data.status === "Ditolak") && !data.arsip
+    ? `
+      <button type="button"
+        onclick="arsipkanHadiahRafa('${item.key}')"
+        style="padding:10px;margin:5px;background:#1877d2;color:white;border:0;border-radius:8px;font-weight:bold">
+        📦 ARSIPKAN
       </button>
     `
     : ""
@@ -1843,6 +1894,30 @@ window.selesaikanHadiahRafa = async function(id){
 
   } catch(error) {
     alert("Gagal menyelesaikan hadiah: " + error.message);
+  }
+};
+
+window.arsipkanHadiahRafa = async function(id){
+
+  const user = auth.currentUser;
+
+  if(!user || user.uid !== "Tb007twouPfwNqKGG4ps9NJZogM2"){
+    alert("Akses khusus Admin Rafa!");
+    return;
+  }
+
+  if(!confirm("Arsipkan riwayat hadiah ini?")) return;
+
+  try {
+    await update(ref(db, "permintaanHadiah/" + id), {
+      arsip: true,
+      diarsipkanPada: Date.now()
+    });
+
+    alert("Riwayat berhasil diarsipkan!");
+
+  } catch(error) {
+    alert("Gagal mengarsipkan: " + error.message);
   }
 };
 </script>
