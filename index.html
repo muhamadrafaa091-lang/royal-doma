@@ -2076,23 +2076,11 @@ function prosesDeveloper(status){
   
 // =================================
 // BONUS HARIAN RAFA GAMING
-// =================================
+
 window.klaimBonusHarianRafa = async function(){
 
-  alert("1. FUNGSI MASUK");
+  const user = playerAuth.currentUser;
 
-  try {
-    alert("2. PLAYER AUTH: " + typeof playerAuth);
-
-    const user = playerAuth.currentUser;
-
-    alert("3. LOGIN: " + (user ? "AKTIF" : "BELUM LOGIN"));
-
-  } catch(error) {
-    alert("ERROR: " + error.message);
-  }
-
-};
   if(!user){
     alert("Silakan login terlebih dahulu!");
     return;
@@ -2107,9 +2095,10 @@ window.klaimBonusHarianRafa = async function(){
     50, 100, 150, 200, 250, 300, 350
   ];
 
-  const hariIni = new Date().toLocaleDateString("en-CA", {
-    timeZone: "Asia/Jakarta"
-  });
+  const hariIni = new Date().toLocaleDateString(
+    "en-CA",
+    { timeZone: "Asia/Jakarta" }
+  );
 
   try {
 
@@ -2123,8 +2112,7 @@ window.klaimBonusHarianRafa = async function(){
           return;
         }
 
-        const hari =
-          Number(data.hariBonus || 0);
+        const hari = Number(data.hariBonus || 0);
 
         const hariBerikutnya =
           hari >= 7 ? 1 : hari + 1;
@@ -2143,7 +2131,7 @@ window.klaimBonusHarianRafa = async function(){
     );
 
     if(!hasil.committed){
-      alert("Bonus belum bisa diklaim atau sudah diambil hari ini.");
+      alert("Bonus gagal diklaim atau sudah diambil hari ini.");
       return;
     }
 
@@ -2157,6 +2145,7 @@ window.klaimBonusHarianRafa = async function(){
   }
 
 };
+  
   
  </script>
 </body>
