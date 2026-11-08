@@ -2079,9 +2079,11 @@ function prosesDeveloper(status){
 // =================================
 window.klaimBonusHarianRafa = async function(){
 
-  
+  alert("1. FUNGSI MASUK");
+
   const user = playerAuth.currentUser;
 
+  alert("2. LOGIN: " + (user ? "AKTIF" : "BELUM LOGIN"));
   if(!user){
     alert("Silakan login terlebih dahulu!");
     return;
