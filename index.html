@@ -2081,9 +2081,18 @@ window.klaimBonusHarianRafa = async function(){
 
   alert("1. FUNGSI MASUK");
 
-  const user = playerAuth.currentUser;
+  try {
+    alert("2. PLAYER AUTH: " + typeof playerAuth);
 
-  alert("2. LOGIN: " + (user ? "AKTIF" : "BELUM LOGIN"));
+    const user = playerAuth.currentUser;
+
+    alert("3. LOGIN: " + (user ? "AKTIF" : "BELUM LOGIN"));
+
+  } catch(error) {
+    alert("ERROR: " + error.message);
+  }
+
+};
   if(!user){
     alert("Silakan login terlebih dahulu!");
     return;
