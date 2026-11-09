@@ -2074,40 +2074,40 @@ function prosesDeveloper(status){
   document.getElementById("kontrolAdmin").style.display = "none";
  }
   
+
 // =================================
 // BONUS HARIAN RAFA GAMING
+
 window.klaimBonusHarianRafa = async function(){
 
-  alert("1. FUNGSI MASUK");
-
-  alert("2. PLAYER AUTH: " + typeof playerAuth);
-
-  alert("3. SELESAI TES");
-
-};
-
-  const user = playerAuth.currentUser;
-
- if(!user){
-    alert("Silakan login terlebih dahulu!");
-    return;
-  }
-
-  const bonusRef = ref(
-    playerDb,
-    "pemain/" + user.uid
-  );
-
-  const bonusHarian = [
-    50, 100, 150, 200, 250, 300, 350
-  ];
-
-  const hariIni = new Date().toLocaleDateString(
-    "en-CA",
-    { timeZone: "Asia/Jakarta" }
-  );
+  alert("1. FUNGSI BONUS MASUK");
 
   try {
+
+    if(typeof playerAuth === "undefined"){
+      throw new Error("playerAuth belum tersedia");
+    }
+
+    const user = playerAuth.currentUser;
+
+    if(!user){
+      alert("Silakan login terlebih dahulu!");
+      return;
+    }
+
+    const bonusRef = ref(
+      playerDb,
+      "pemain/" + user.uid
+    );
+
+    const bonusHarian = [
+      50, 100, 150, 200, 250, 300, 350
+    ];
+
+    const hariIni = new Date().toLocaleDateString(
+      "en-CA",
+      { timeZone: "Asia/Jakarta" }
+    );
 
     const hasil = await runTransaction(
       bonusRef,
@@ -2120,12 +2120,8 @@ window.klaimBonusHarianRafa = async function(){
         }
 
         const hari = Number(data.hariBonus || 0);
-
-        const hariBerikutnya =
-          hari >= 7 ? 1 : hari + 1;
-
-        const jumlah =
-          bonusHarian[hariBerikutnya - 1];
+        const hariBerikutnya = hari >= 7 ? 1 : hari + 1;
+        const jumlah = bonusHarian[hariBerikutnya - 1];
 
         data.saldoKoin =
           Number(data.saldoKoin || 0) + jumlah;
@@ -2147,12 +2143,13 @@ window.klaimBonusHarianRafa = async function(){
   } catch(error){
 
     console.error("Bonus Rafa:", error);
-    alert("Gagal mengambil bonus. Periksa koneksi.");
+    alert("Gagal mengambil bonus: " + error.message);
 
   }
 
 };
   
+        
   
  </script>
 <script>
