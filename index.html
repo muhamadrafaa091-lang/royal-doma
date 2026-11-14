@@ -1300,8 +1300,10 @@ const auth = getAuth(app);
 // KONEKSI KHUSUS AKUN PEMAIN
 const playerApp = initializeApp(firebaseConfig, "rafaPlayerAuth");
 const playerAuth = getAuth(playerApp);
-const playerDb = getDatabase(playerApp);
+window.playerAuth = playerAuth;
+ const playerDb = getDatabase(playerApp);
 
+ 
 
 window.daftarPemainRafa = async function(){
   const nama = document.getElementById("namaDaftarRafa").value.trim();
